@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->string('code', 3);
             $table->string('cipher', 3);
+            $table->string('code', 3);
             $table->string('name');
             $table->integer('remainder');
             $table->timestamps();
