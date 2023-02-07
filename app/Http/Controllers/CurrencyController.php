@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CurrencyRequest;
 use App\Models\Currency;
+use App\Services\CurrencyOperationsServices;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class CurrencyController extends Controller
 {
+
+    protected CurrencyOperationsServices $operations;
+
+    public function __construct(CurrencyOperationsServices $services)
+    {
+        $this->operations = $services;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -38,7 +46,7 @@ class CurrencyController extends Controller
      * @param CurrencyRequest $request
      * @return RedirectResponse
      */
-    public function store(CurrencyRequest $request)// : RedirectResponse
+    public function store(CurrencyRequest $request): RedirectResponse
     {
         Currency::create($request->validated());
         return redirect()->route('currency.index')->with('message',
@@ -98,56 +106,70 @@ class CurrencyController extends Controller
     }
 
 
-    // Покупка
-    public function buy()
+// Покупка
+    public
+    function buy()
     {
 
     }
 
-    // Продажа
-    public function sale()
+// Продажа
+    public
+    function sale()
     {
 
     }
 
-    // Подкрепление
-    public function reinforcement()
+// Подкрепление
+    public
+    function reinforcement()
     {
 
     }
 
-    // Инкассация
-    public function shipment()
+// Инкассация
+    public
+    function shipment()
     {
 
     }
 
-    // Приходы
-    public function parishes()
+// Приходы
+    public
+    function parishes(Currency $currency)
+    {
+        return $this->operations->expensesAndParishes($currency, '+');
+
+    }
+
+// Расходы
+    public function expenses(Currency $currency)
+    {
+        return $this->operations->expensesAndParishes($currency, '-');
+    }
+
+    public function expensesAndParishesSave(Request $request, Currency $currency)
+    {
+        return $this->operations->expensesAndParishesSave($request, $currency);
+    }
+
+// Остатки
+    public
+    function remains()
     {
 
     }
 
-    // Расходы
-    public function expenses()
+// Блокнот
+    public
+    function notebook()
     {
 
     }
 
-    // Остатки
-    public function remains()
-    {
-
-    }
-
-    // Блокнот
-    public function notebook()
-    {
-
-    }
-
-    // Конверсия
-    public function conversion()
+// Конверсия
+    public
+    function conversion()
     {
 
     }

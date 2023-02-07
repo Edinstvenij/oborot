@@ -9,7 +9,7 @@
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Название валюты</label>
-            <input type="text" class="form-control" id="name" name="name" maxlength="255"
+            <input type="text" class="form-control" id="name" name="name" maxlength="255" required
                    value="{{ old('name') }}">
             @if ($errors->has('name'))
                 <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -18,7 +18,7 @@
         </div>
         <div class="mb-3">
             <label for="cipher" class="form-label">Шифр валюты</label>
-            <input type="text" class="form-control" id="cipher" name="cipher" maxlength="3"
+            <input type="text" class="form-control" id="cipher" name="cipher" maxlength="3" required
                    value="{{ old('cipher') }}">
             @if ($errors->has('cipher'))
                 <span class="text-danger">{{ $errors->first('cipher') }}</span>
@@ -26,7 +26,7 @@
         </div>
         <div class="mb-3">
             <label for="code" class="form-label">Код валюты</label>
-            <input type="number" class="form-control" id="code" name="code" max="999"
+            <input type="number" class="form-control" id="code" name="code" max="999" required
                    value="{{ old('code') }}">
             @if ($errors->has('code'))
                 <span class="text-danger">{{ $errors->first('code') }}</span>
