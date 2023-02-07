@@ -1,11 +1,4 @@
-let table = document.getElementById('currencies');
-
-let rows = table.getElementsByClassName('row-link');
-// table.addEventListener('click', function (e) {
-//     console.log(e.target.closest('tr'));
-// })
-
-
+// TODO Иногда не находит ID
 const operationsModal = document.getElementById('operationsModal')
 let lastId = false;
 operationsModal.addEventListener('show.bs.modal', event => {
