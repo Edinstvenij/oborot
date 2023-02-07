@@ -28,6 +28,9 @@
         </tbody>
     </table>
 
+
+    <a href="{{ route('currency.create') }}" class="position-fixed bottom-0 end-0  translate-middle btn btn-sm btn-primary rounded-pill"
+       style="width: 2rem; height:2rem;">+</a>
 @endsection
 
 @section('modal')
@@ -59,6 +62,8 @@
                         <a href="{{ route('currency.notebook', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Блокнот</a>
                     </div>
+                    <hr>
+                    <a href="{{ route('currency.show','replacement') }}" class="btn btn-info">Редактировать</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -11,7 +11,7 @@ operationsModal.addEventListener('show.bs.modal', event => {
 
     // Update the modal's content.
     const modalTitle = operationsModal.querySelector('.modal-title');
-    const modalLinks = operationsModal.querySelectorAll('.list-group-item');
+    const modalLinks = operationsModal.querySelectorAll('a');
 
 
     modalTitle.textContent = `Операции с ${recipient}`;

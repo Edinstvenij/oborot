@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('cipher', 3);
             $table->string('code', 3);
             $table->string('name');
-            $table->integer('remainder');
+            $table->integer('remainder')->default(0);
             $table->timestamps();
         });
     }

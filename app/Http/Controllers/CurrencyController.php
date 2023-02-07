@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CurrencyRequest;
 use App\Models\Currency;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class CurrencyController extends Controller
@@ -22,66 +25,131 @@ class CurrencyController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('currency.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param CurrencyRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CurrencyRequest $request)// : RedirectResponse
     {
-        //
+        Currency::create($request->validated());
+        return redirect()->route('currency.index')->with('message',
+            ['Создана новая валюта: ' . $request->name, 'success']);
     }
 
     /**
      * Display the specified resource.
      *
      * @param \App\Models\Currency $currency
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function show(Currency $currency)
+    public function show(Currency $currency): View
     {
-        //
+        return view('currency.show', compact('currency'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\Currency $currency
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function edit(Currency $currency)
+    public function edit(Currency $currency): View
     {
-        //
+        return view('currency.edit', compact('currency'));
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Currency $currency
-     * @return \Illuminate\Http\Response
+     * @param CurrencyRequest $request
+     * @param Currency $currency
+     * @return RedirectResponse
      */
-    public function update(Request $request, Currency $currency)
+    public function update(CurrencyRequest $request, Currency $currency): RedirectResponse
     {
-        //
+        $currency->update($request->validated());
+        return redirect()->back()->with('message', ['Изменение внесены успешно', 'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Currency $currency
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy(Currency $currency)
+    public function destroy(Currency $currency): RedirectResponse
     {
-        //
+        if ($currency->cipher === 'UAH') {
+            return redirect()->back()->with('message', ['Гривну нельзя удалить', 'danger']);
+        }
+        $nameDeleted = $currency->name;
+        $currency->delete();
+        return redirect()->route('currency.index')->with('message', ['Удалена валюта: ' . $nameDeleted, 'danger']);
     }
+
+
+    // Покупка
+    public function buy()
+    {
+
+    }
+
+    // Продажа
+    public function sale()
+    {
+
+    }
+
+    // Подкрепление
+    public function reinforcement()
+    {
+
+    }
+
+    // Инкассация
+    public function shipment()
+    {
+
+    }
+
+    // Приходы
+    public function parishes()
+    {
+
+    }
+
+    // Расходы
+    public function expenses()
+    {
+
+    }
+
+    // Остатки
+    public function remains()
+    {
+
+    }
+
+    // Блокнот
+    public function notebook()
+    {
+
+    }
+
+    // Конверсия
+    public function conversion()
+    {
+
+    }
+
 }

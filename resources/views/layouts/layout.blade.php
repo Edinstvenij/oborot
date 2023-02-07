@@ -8,6 +8,14 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body>
+@if (Session::has('message'))
+    @if(count(Session::get('message')) > 1)
+        <div class="alert alert-{{ Session::get('message')[1] }}">{{ Session::get('message')[0] }}</div>
+    @else
+        <div class="alert alert-info">{{ Session::get('message')[0] }}</div>
+    @endif
+@endif
+
 @yield('modal')
 <div class="container">
     @yield('content')
