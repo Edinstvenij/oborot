@@ -42,19 +42,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="list-group">
-                        <a href="#"
+                        <a href="{{ route('currency.buy', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Покупка</a>
-                        <a href="#"
+                        <a href="{{ route('currency.sale', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Продажа</a>
-                        <a href="#"
+                        <a href="{{ route('currency.reinforcement', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Подкрепление</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-dark ">Инкассация</a>
-                        <a href="#"
+                        <a href="{{ route('currency.shipment', 'replacement') }}"
+                           class="list-group-item list-group-item-action list-group-item-dark ">Инкассация</a>
+                        <a href="{{ route('currency.parishes', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Приходы</a>
-                        <a href="#"
+                        <a href="{{ route('currency.expenses', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Расходы</a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-dark ">Конверсия</a>
-                        <a href="#"
+                        <a href="{{ route('currency.remains', 'replacement') }}"
+                           class="list-group-item list-group-item-action list-group-item-dark ">Конверсия</a>
+                        <a href="{{ route('currency.notebook', 'replacement') }}"
                            class="list-group-item list-group-item-action list-group-item-dark ">Блокнот</a>
                     </div>
                 </div>

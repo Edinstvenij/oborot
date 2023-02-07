@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::controller(CurrencyController::class)->group(function () {
-
     Route::get('/', 'index');
+});
+
+Route::controller(CurrencyController::class)->group(function () {
+    Route::get('buy/{currency}', 'buy')->name('currency.buy');
+    Route::get('sale/{currency}', 'sale')->name('currency.sale');
+    Route::get('reinforcement/{currency}', 'reinforcement')->name('currency.reinforcement');
+    Route::get('shipment/{currency}', 'shipment')->name('currency.shipment');
+    Route::get('parishes/{currency}', 'parishes')->name('currency.parishes');
+    Route::get('expenses/{currency}', 'expenses')->name('currency.expenses');
+    Route::get('remains/{currency}', 'remains')->name('currency.remains');
+    Route::get('notebook/{currency}', 'notebook')->name('currency.notebook');
+    Route::get('conversion/{currency}', 'conversion')->name('currency.conversion');
 });

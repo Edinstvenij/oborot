@@ -6,18 +6,34 @@ let rows = table.getElementsByClassName('row-link');
 // })
 
 
-const exampleModal = document.getElementById('operationsModal')
-exampleModal.addEventListener('show.bs.modal', event => {
+const operationsModal = document.getElementById('operationsModal')
+let lastId = false;
+operationsModal.addEventListener('show.bs.modal', event => {
     // Button that triggered the modal
     const button = event.relatedTarget
     // Extract info from data-bs-* attributes
-    const recipient = button.getAttribute('data-bs-whatever')
+    const recipient = button.getAttribute('data-bs-whatever');
+    const recipientId = button.getAttribute('data-id');
 
 
     // Update the modal's content.
-    const modalTitle = exampleModal.querySelector('.modal-title')
-    const modalBodyInput = exampleModal.querySelector('.modal-body input')
+    const modalTitle = operationsModal.querySelector('.modal-title');
+    const modalLinks = operationsModal.querySelectorAll('.list-group-item');
 
-    modalTitle.textContent = `Операции с ${recipient}`
-    modalBodyInput.value = recipient
+
+    modalTitle.textContent = `Операции с ${recipient}`;
+
+    if (!lastId) {
+        modalLinks.forEach(function (link) {
+            link.href = link.href.replace('replacement', recipientId)
+        });
+
+        lastId = recipientId;
+    } else {
+        modalLinks.forEach(function (link) {
+            link.href = link.href.replace(lastId, recipientId)
+        });
+
+        lastId = recipientId;
+    }
 })
