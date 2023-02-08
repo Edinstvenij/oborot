@@ -16,6 +16,7 @@ class Currency extends Model
         'code',
         'cipher',
         'name',
+        'course',
         'remainder'
     ];
 

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Currency;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CurrencySeeder extends Seeder
@@ -163,6 +162,7 @@ class CurrencySeeder extends Seeder
                 'name' => $value['name'],
                 'remainder' => $value['remainder'],
             ])->save();
+            sleep(1);
         }
     }
 }

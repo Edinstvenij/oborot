@@ -26,7 +26,7 @@ class CurrencyController extends Controller
      */
     public function index(): View
     {
-        $currencies = Currency::all();
+        $currencies = Currency::query()->orderBy('created_at')->get();
         return view('currency.index', compact('currencies'));
     }
 

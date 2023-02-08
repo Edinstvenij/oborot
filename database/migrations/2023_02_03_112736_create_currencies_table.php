@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('cipher', 3)->primary();
             $table->string('code', 3);
             $table->string('name');
+            $table->float('course', 8, 4)->unsigned()->nullable();
             $table->integer('remainder')->default(0);
             $table->timestamps();
         });

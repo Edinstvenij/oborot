@@ -20,6 +20,7 @@ class CurrencyFactory extends Factory
             'code' => '840',
             'cipher' => 'USD',
             'name' => 'Доллар США',
+            'course' => null,
             'remainder' => 0
         ];
     }
