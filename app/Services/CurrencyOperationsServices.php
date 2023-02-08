@@ -12,7 +12,9 @@ class CurrencyOperationsServices
     // Покупка
     public function buy(Currency $currency, string $method)
     {
-        return view('currency.form-expenses_parishes', compact('currency', 'method'));
+        $title = $method === 'buy' ? 'Покупка' : 'Продажа';
+        $currencyUah = Currency::where('cipher', 'UAH')->first();
+        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'method', 'title'));
     }
 
     // Продажа
@@ -42,7 +44,8 @@ class CurrencyOperationsServices
      */
     public function expensesAndParishes(Currency $currency, string $method = '-'): View
     {
-        return view('currency.form-expenses_parishes', compact('currency', 'method'));
+        $title = $method === '-' ? 'Расходы' : 'Приходы';
+        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title'));
     }
 
     /**

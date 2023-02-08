@@ -1,20 +1,4 @@
-@extends('layouts.layout')
-
-@section('title', $currency->name)
-
-@section('content')
-    <a href="{{ route('currency.index') }}" class="btn btn-secondary mt-3">Назад</a>
-
-    @if($method === '-')
-        <h1 class="display-1 mt-5">Расходы</h1>
-    @else
-        <h1 class="display-1 mt-5">Приходы</h1>
-    @endif
-
-    @component('currency.component.card', compact('currency'))
-    @endcomponent
-
-
+@component('currency.component.form-operations', compact('currency', 'title'))
 
     <form action="{{ route('currency.expensesAndParishes.save',$currency) }}" method="POST">
         @csrf
@@ -36,4 +20,4 @@
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>
 
-@endsection
+@endcomponent
