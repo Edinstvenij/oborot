@@ -10,11 +10,16 @@ use Illuminate\View\View;
 class CurrencyOperationsServices
 {
     // Покупка
-    public function buy(Currency $currency, string $method)
+    public function buyAndSale(Currency $currency, string $method)
     {
-        $title = $method === 'buy' ? 'Покупка' : 'Продажа';
-        $currencyUah = Currency::where('cipher', 'UAH')->first();
-        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'method', 'title'));
+        if ($method === 'buy') {
+            $title = 'Покупка';
+            $currencyUah = Currency::where('cipher', 'UAH')->first();
+        } else {
+            $title = 'Продажа';
+            $currencyUah = Currency::where('cipher', 'UAH')->first();
+        }
+        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method'));
     }
 
     // Продажа
@@ -22,6 +27,34 @@ class CurrencyOperationsServices
     {
 
     }
+
+    public function buyAndSaleSave(Request $request, Currency $currency, string $method)
+    {
+        $currencyUah = Currency::find('UAH');
+        if ($method === 'buy') {
+            $result = $currency->remainder + $request->get('result');
+            $resultUah = $currencyUah->remainder - $request->get('input');
+            $message = "Куплено ";
+        } else {
+            $result = $currency->remainder - $request->get('result');
+            $resultUah = $currencyUah->remainder + $request->get('input');
+            $message = "Продано ";
+        }
+
+        $currency->update([
+            'course' => $request->get('course'),
+            'remainder' => $result,
+        ]);
+        $currencyUah->update([
+            'remainder' => $resultUah
+        ]);
+
+        return redirect()->back()->with('message', [
+            "$message $request->result $currency->name на сумму $request->input $currencyUah->name",
+            'success'
+        ]);
+    }
+
 
     // Подкрепление
     public function reinforcement(Currency $currency)

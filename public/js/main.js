@@ -36,8 +36,21 @@ if (document.getElementById('operationsModal')) {
 }
 
 
+let course = document.querySelector('#course');
 const input = document.querySelector('#input');
 const result = document.querySelector('#result');
-const select = document.querySelector('#select');
 
-console.log(input, result, select);
+input.oninput = function () {
+    result.value = (input.value / course.value).toFixed(2);
+}
+
+result.oninput = function () {
+    input.value = (result.value * course.value).toFixed(2);
+}
+
+course.oninput = function () {
+    result.value = (input.value / course.value).toFixed(2);
+}
+
+
+
