@@ -27,6 +27,7 @@ class CurrencyRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'cipher' => ['required', 'string', 'min:3', 'max:3'],
             'code' => ['required', 'integer', 'min:100', 'max:999'],
+            'remainder' => ['integer']
         ];
     }
 }

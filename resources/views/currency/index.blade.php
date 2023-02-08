@@ -29,7 +29,8 @@
     </table>
 
 
-    <a href="{{ route('currency.create') }}" class="position-fixed bottom-0 end-0  translate-middle btn btn-sm btn-primary rounded-pill"
+    <a href="{{ route('currency.create') }}"
+       class="position-fixed bottom-0 end-0  translate-middle btn btn-sm btn-primary rounded-pill"
        style="width: 2rem; height:2rem;">+</a>
 @endsection
 
@@ -46,27 +47,27 @@
                 <div class="modal-body">
                     <div class="list-group">
                         <a href="{{ route('currency.buy', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Покупка</a>
+                           class="list-group-item list-group-item-action list-group-item-dark">Покупка</a>
                         <a href="{{ route('currency.sale', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Продажа</a>
+                           class="list-group-item list-group-item-action list-group-item-dark">Продажа</a>
                         <a href="{{ route('currency.reinforcement', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Подкрепление</a>
+                           class="list-group-item list-group-item-action list-group-item-dark disabled">Подкрепление</a>
                         <a href="{{ route('currency.shipment', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Инкассация</a>
+                           class="list-group-item list-group-item-action list-group-item-dark disabled">Инкассация</a>
                         <a href="{{ route('currency.parishes', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Приходы</a>
+                           class="list-group-item list-group-item-action list-group-item-dark">Приходы</a>
                         <a href="{{ route('currency.expenses', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Расходы</a>
+                           class="list-group-item list-group-item-action list-group-item-dark">Расходы</a>
                         <a href="{{ route('currency.remains', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Конверсия</a>
+                           class="list-group-item list-group-item-action list-group-item-dark disabled">Конверсия</a>
                         <a href="{{ route('currency.notebook', 'replacement') }}"
-                           class="list-group-item list-group-item-action list-group-item-dark ">Блокнот</a>
+                           class="list-group-item list-group-item-action list-group-item-dark disabled">Блокнот</a>
                     </div>
                     <hr>
                     <a href="{{ route('currency.show','replacement') }}" class="btn btn-info">Редактировать</a>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>

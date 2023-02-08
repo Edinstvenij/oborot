@@ -1,9 +1,10 @@
 @extends('layouts.layout')
 
-@section('title','Создание валюты ')
+@section('title','Создание валюты')
 
 @section('content')
     <a href="{{ route('currency.index') }}" class="btn btn-secondary mt-3">Назад</a>
+    <h1 class="display-1 mt-5">Создание валюты</h1>
 
     <form class="mt-5" action="{{ route('currency.store') }}" method="POST">
         @csrf
@@ -30,6 +31,14 @@
                    value="{{ old('code') }}">
             @if ($errors->has('code'))
                 <span class="text-danger">{{ $errors->first('code') }}</span>
+            @endif
+        </div>
+        <div class="mb-3">
+            <label for="remainder" class="form-label">Количество валюты</label>
+            <input type="number" class="form-control" id="remainder" name="remainder"
+                   value="{{ old('remainder') }}">
+            @if ($errors->has('remainder'))
+                <span class="text-danger">{{ $errors->first('remainder') }}</span>
             @endif
         </div>
 

@@ -11,14 +11,10 @@
         <h1 class="display-1 mt-5">Приходы</h1>
     @endif
 
-    <div class="container">
-        <div class="card mt-3 mx-auto" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">{{ $currency->name }} ({{ $currency->cipher .'-'. $currency->code }})</h5>
-                <p class="card-text">Остаток: {{ $currency->remainder }}</p>
-            </div>
-        </div>
-    </div>
+    @component('currency.component.card', compact('currency'))
+    @endcomponent
+
+
 
     <form action="{{ route('currency.expensesAndParishes.save',$currency) }}" method="POST">
         @csrf

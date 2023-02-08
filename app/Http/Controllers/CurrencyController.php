@@ -108,68 +108,83 @@ class CurrencyController extends Controller
 
 // Покупка
     public
-    function buy()
+    function buy(Currency $currency)
     {
-
+        return $this->operations->buy($currency, 'buy');
     }
 
 // Продажа
     public
-    function sale()
+    function sale(Currency $currency)
     {
 
     }
 
 // Подкрепление
     public
-    function reinforcement()
+    function reinforcement(Currency $currency)
     {
 
     }
 
 // Инкассация
     public
-    function shipment()
+    function shipment(Currency $currency)
     {
 
     }
 
-// Приходы
+    /**
+     *  Приходы
+     * @param Currency $currency
+     * @return View
+     */
     public
-    function parishes(Currency $currency)
+    function parishes(Currency $currency): View
     {
         return $this->operations->expensesAndParishes($currency, '+');
 
     }
 
-// Расходы
-    public function expenses(Currency $currency)
+
+    /**
+     *  Расходы
+     * @param Currency $currency
+     * @return View
+     */
+    public function expenses(Currency $currency): View
     {
         return $this->operations->expensesAndParishes($currency, '-');
     }
 
-    public function expensesAndParishesSave(Request $request, Currency $currency)
+    /**
+     *  Сохранение результатов приходов и расходов
+     * @param Request $request
+     * @param Currency $currency
+     * @return RedirectResponse
+     */
+    public function expensesAndParishesSave(Request $request, Currency $currency): RedirectResponse
     {
         return $this->operations->expensesAndParishesSave($request, $currency);
     }
 
 // Остатки
     public
-    function remains()
+    function remains(Currency $currency)
     {
 
     }
 
 // Блокнот
     public
-    function notebook()
+    function notebook(Currency $currency)
     {
 
     }
 
 // Конверсия
     public
-    function conversion()
+    function conversion(Currency $currency)
     {
 
     }
