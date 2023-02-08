@@ -3,56 +3,70 @@
 namespace App\Services;
 
 use App\Models\Currency;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class CurrencyOperationsServices
 {
-    // Покупка
-    public function buyAndSale(Currency $currency, string $method)
+    /**
+     *  Покупка и продажа
+     * @param Currency $currency
+     * @param string $method
+     * @return View
+     */
+    public function buyAndSale(Currency $currency, string $method): View
     {
-        if ($method === 'buy') {
-            $title = 'Покупка';
-            $currencyUah = Currency::where('cipher', 'UAH')->first();
-        } else {
-            $title = 'Продажа';
-            $currencyUah = Currency::where('cipher', 'UAH')->first();
-        }
+        $title = $method === 'buy' ? 'Покупка' : 'Продажа';
+        $currencyUah = Currency::where('cipher', 'UAH')->first();
         return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method'));
     }
 
-    // Продажа
-    public function sale(Currency $currency)
-    {
 
-    }
-
-    public function buyAndSaleSave(Request $request, Currency $currency, string $method)
+    /**
+     * Сохранение данных с покупки и продажи
+     * @param Request $request
+     * @param Currency $currency
+     * @param string $method
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function buyAndSaleSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        $currencyUah = Currency::find('UAH');
-        if ($method === 'buy') {
-            $result = $currency->remainder + $request->get('result');
-            $resultUah = $currencyUah->remainder - $request->get('input');
-            $message = "Куплено ";
-        } else {
-            $result = $currency->remainder - $request->get('result');
-            $resultUah = $currencyUah->remainder + $request->get('input');
-            $message = "Продано ";
+        try {
+            $currencyUah = Currency::find('UAH');
+            if ($method === 'buy') {
+                $result = $currency->remainder + $request->get('result');
+                $resultUah = $currencyUah->remainder - $request->get('input');
+                $message = "Куплено ";
+            } else {
+                $result = $currency->remainder - $request->get('result');
+                $resultUah = $currencyUah->remainder + $request->get('input');
+                $message = "Продано ";
+            }
+
+            DB::beginTransaction();
+
+            $currency->update([
+                'course' => $request->get('course'),
+                'remainder' => $result,
+            ]);
+            $currencyUah->update([
+                'remainder' => $resultUah
+            ]);
+
+            DB::commit();
+
+            return redirect()->back()->with('message', [
+                "$message $request->result $currency->name на сумму $request->input $currencyUah->name",
+                'success'
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
         }
-
-        $currency->update([
-            'course' => $request->get('course'),
-            'remainder' => $result,
-        ]);
-        $currencyUah->update([
-            'remainder' => $resultUah
-        ]);
-
-        return redirect()->back()->with('message', [
-            "$message $request->result $currency->name на сумму $request->input $currencyUah->name",
-            'success'
-        ]);
     }
 
 

@@ -106,19 +106,36 @@ class CurrencyController extends Controller
     }
 
 
-// Покупка
-    public function buy(Currency $currency)
+    /**
+     *  Покупка
+     * @param Currency $currency
+     * @return View
+     */
+    public function buy(Currency $currency): View
     {
         return $this->operations->buyAndSale($currency, 'buy');
     }
 
-// Продажа
-    public function sale(Currency $currency)
+
+    /**
+     *  Продажа
+     * @param Currency $currency
+     * @return View
+     */
+    public function sale(Currency $currency): View
     {
         return $this->operations->buyAndSale($currency, 'sale');
     }
 
-    public function buyAndSaleSave(Request $request, Currency $currency, string $method)
+    /**
+     *  Сохранения результатов покупки и продажи
+     * @param Request $request
+     * @param Currency $currency
+     * @param string $method
+     * @return RedirectResponse
+     * @throws \Exception
+     */
+    public function buyAndSaleSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
         return $this->operations->buyAndSaleSave($request, $currency, $method);
     }

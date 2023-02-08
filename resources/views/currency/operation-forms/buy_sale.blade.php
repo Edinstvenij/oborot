@@ -26,7 +26,7 @@
                         <div class="row mb-1">
                             <div class="col">
                                 <label for="course">Курс:</label>
-                                <input class="form-control" type="number" name="course" id="course" min="0"
+                                <input class="form-control" type="number" name="course" id="course" min="0" step="any"
                                        value="{{ $currency->course ?? $currencyUah->course ?? '' }}" required>
                             </div>
                         </div>
@@ -52,11 +52,12 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <input id="input" name="input" type="number" class="form-control" min="0"
+                                    <input id="input" name="input" type="number" class="form-control" min="0" step="any"
                                            required/>
                                 </div>
                                 <div class="col">
                                     <input id="result" name="result" type="number" class="form-control" min="0"
+                                           step="any"
                                            autofocus
                                            required/>
                                 </div>
@@ -83,11 +84,12 @@
 
                                 <div class="col">
                                     <input id="result" name="result" type="number" class="form-control" min="0"
+                                           step="any"
                                            autofocus
                                            required/>
                                 </div>
                                 <div class="col">
-                                    <input id="input" name="input" type="number" class="form-control" min="0"
+                                    <input id="input" name="input" type="number" class="form-control" min="0" step="any"
                                            required/>
                                 </div>
                             </div>
