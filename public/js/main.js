@@ -9,7 +9,6 @@ if (document.getElementById('operationsModal')) {
         // Extract info from data-bs-* attributes
         const recipient = button.getAttribute('data-bs-whatever');
         const recipientId = button.getAttribute('data-id');
-        console.log(recipientId);
 
 
         // Update the modal's content.
@@ -35,21 +34,22 @@ if (document.getElementById('operationsModal')) {
     })
 }
 
+if (document.querySelector('#course')) {
+    const course = document.querySelector('#course');
+    const input = document.querySelector('#input');
+    const result = document.querySelector('#result');
 
-let course = document.querySelector('#course');
-const input = document.querySelector('#input');
-const result = document.querySelector('#result');
+    input.oninput = function () {
+        result.value = (input.value / course.value).toFixed(2);
+    }
 
-input.oninput = function () {
-    result.value = (input.value / course.value).toFixed(2);
-}
+    result.oninput = function () {
+        input.value = (result.value * course.value).toFixed(2);
+    }
 
-result.oninput = function () {
-    input.value = (result.value * course.value).toFixed(2);
-}
-
-course.oninput = function () {
-    result.value = (input.value / course.value).toFixed(2);
+    course.oninput = function () {
+        result.value = (input.value / course.value).toFixed(2);
+    }
 }
 
 
