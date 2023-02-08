@@ -18,7 +18,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#operationsModal"
                 data-bs-whatever="{{ $currency->name }}"
-                data-id="{{ $currency->id }}">
+                data-id="{{ $currency->cipher }}">
                 <td>{{ $currency->code }}</td>
                 <td>{{ $currency->cipher }}</td>
                 <td>{{ $currency->name }}</td>

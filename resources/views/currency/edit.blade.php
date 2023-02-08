@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <form class="mt-5" action="{{ route('currency.update', $currency->id) }}" method="POST">
+        <form class="mt-5" action="{{ route('currency.update', $currency) }}" method="POST">
             @csrf
             <input type="hidden" name="_method" value="PUT">
             <div class="mb-3">

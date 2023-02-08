@@ -9,6 +9,7 @@ if (document.getElementById('operationsModal')) {
         // Extract info from data-bs-* attributes
         const recipient = button.getAttribute('data-bs-whatever');
         const recipientId = button.getAttribute('data-id');
+        console.log(recipientId);
 
 
         // Update the modal's content.

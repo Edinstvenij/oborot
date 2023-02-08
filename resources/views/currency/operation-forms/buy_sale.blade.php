@@ -32,7 +32,7 @@
                                     class="form-control"
                                     id="exampleFormControlSelect1"
                                 >
-                                    <option value="{{ $currencyUah->id }}"
+                                    <option value="{{ $currencyUah->cipher }}"
                                             selected>{{ $currencyUah->cipher .' — '. $currencyUah->name }}</option>
                                 </select>
                             </div>
@@ -44,7 +44,7 @@
                                     id="exampleFormControlSelect1"
                                     disabled
                                 >
-                                    <option value="{{ $currency->id }}"
+                                    <option value="{{ $currency->cipher }}"
                                             selected>{{$currency->cipher .' — '. $currency->name}}</option>
                                 </select>
                             </div>

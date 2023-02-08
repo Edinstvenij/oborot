@@ -9,6 +9,8 @@ class Currency extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'cipher';
+    protected $keyType = 'string';
 
     protected $fillable = [
         'code',

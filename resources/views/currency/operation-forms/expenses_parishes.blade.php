@@ -1,6 +1,6 @@
 @component('currency.component.form-operations', compact('currency', 'title'))
 
-    <form action="{{ route('currency.expensesAndParishes.save',$currency) }}" method="POST">
+    <form action="{{ route('currency.expensesAndParishes.save', $currency) }}" method="POST">
         @csrf
         <input type="hidden" name="method" value="{{ $method }}">
         <div class="mb-3">
