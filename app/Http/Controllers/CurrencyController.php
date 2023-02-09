@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CurrencyRequest;
 use App\Models\Currency;
 use App\Services\CurrencyOperationsServices;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -106,48 +107,44 @@ class CurrencyController extends Controller
     }
 
 
-    public function startOperations(Currency $currency, string $method)
+    /**
+     * @param Currency $currency
+     * @param string $method
+     * @return View
+     */
+    public function startOperations(Currency $currency, string $method): View
     {
         return $this->operations->$method($currency, $method);
     }
 
-    public function startOperationsSave(Request $request, Currency $currency, string $method)
+    /**
+     * @param Request $request
+     * @param Currency $currency
+     * @param string $method
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function startOperationsSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
         return $this->operations->$method($request, $currency, $method);
     }
 
+    /*
+        public function parishes(Currency $currency): View
+        {
+            return $this->operations->expensesAndParishes($currency, '+');
 
-    /**
-     *  Приходы
-     * @param Currency $currency
-     * @return View
-     */
-    public function parishes(Currency $currency): View
-    {
-        return $this->operations->expensesAndParishes($currency, '+');
-
-    }
+        }
 
 
-    /**
-     *  Расходы
-     * @param Currency $currency
-     * @return View
-     */
-    public function expenses(Currency $currency): View
-    {
-        return $this->operations->expensesAndParishes($currency, '-');
-    }
+        public function expenses(Currency $currency): View
+        {
+            return $this->operations->expensesAndParishes($currency, '-');
+        }
 
-    /**
-     *  Сохранение результатов приходов и расходов
-     * @param Request $request
-     * @param Currency $currency
-     * @return RedirectResponse
-     */
-    public function expensesAndParishesSave(Request $request, Currency $currency): RedirectResponse
-    {
-        return $this->operations->expensesAndParishesSave($request, $currency);
-    }
-
+        public function expensesAndParishesSave(Request $request, Currency $currency): RedirectResponse
+        {
+            return $this->operations->expensesAndParishesSave($request, $currency);
+        }
+    */
 }
