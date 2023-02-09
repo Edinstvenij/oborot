@@ -46,21 +46,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="list-group">
-                        <a href="{{ route('currency.buy', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'buy']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark">Покупка</a>
-                        <a href="{{ route('currency.sale', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'sale']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark">Продажа</a>
-                        <a href="{{ route('currency.reinforcement', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'reinforcement']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Подкрепление</a>
-                        <a href="{{ route('currency.shipment', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'shipment']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Инкассация</a>
-                        <a href="{{ route('currency.parishes', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'parishes']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark">Приходы</a>
-                        <a href="{{ route('currency.expenses', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'expenses']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark">Расходы</a>
-                        <a href="{{ route('currency.remains', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'remains']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Конверсия</a>
-                        <a href="{{ route('currency.notebook', 'replacement') }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'notebook']) }}"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Блокнот</a>
                     </div>
                     <hr>

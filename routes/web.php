@@ -19,22 +19,11 @@ Route::get('/', function () {
 });
 
 Route::resource('currency', CurrencyController::class,);
-Route::controller(CurrencyController::class)->prefix('currency')->group(function () {
-    Route::get('/', 'index')->name('currency.index');
+Route::controller(CurrencyController::class)->prefix('currency')
+    ->where(['currency' => '^[A-Z]{3}$', 'method' => '^[a-zS]+$'])
+    ->group(function () {
+        Route::get('/', 'index')->name('currency.index');
 
-    Route::get('/{currency}/buy', 'buy')->name('currency.buy');
-    Route::get('/{currency}/sale', 'sale')->name('currency.sale');
-    Route::post('/{currency}/{method}/buyAndSaleSave', 'buyAndSaleSave')->name('currency.buyAndSale.save');
-
-
-    Route::get('/{currency}/reinforcement', 'reinforcement')->name('currency.reinforcement');
-    Route::get('/{currency}/shipment', 'shipment')->name('currency.shipment');
-
-    Route::get('/{currency}/parishes', 'parishes')->name('currency.parishes');
-    Route::get('/{currency}/expenses', 'expenses')->name('currency.expenses');
-    Route::post('/{currency}/expensesAndParishesSave', 'expensesAndParishesSave')->name('currency.expensesAndParishes.save');
-
-    Route::get('/{currency}/remains', 'remains')->name('currency.remains');
-    Route::get('/{currency}/notebook', 'notebook')->name('currency.notebook');
-    Route::get('/{currency}/conversion', 'conversion')->name('currency.conversion');
-});
+        Route::get('/{currency}/{method}', 'startOperations')->name('currency.operations');
+        Route::post('/{currency}/{method}', 'startOperationsSave')->name('currency.operations.save');
+    });

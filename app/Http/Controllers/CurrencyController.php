@@ -106,51 +106,16 @@ class CurrencyController extends Controller
     }
 
 
-    /**
-     *  Покупка
-     * @param Currency $currency
-     * @return View
-     */
-    public function buy(Currency $currency): View
+    public function startOperations(Currency $currency, string $method)
     {
-        return $this->operations->buyAndSale($currency, 'buy');
+        return $this->operations->$method($currency, $method);
     }
 
-
-    /**
-     *  Продажа
-     * @param Currency $currency
-     * @return View
-     */
-    public function sale(Currency $currency): View
+    public function startOperationsSave(Request $request, Currency $currency, string $method)
     {
-        return $this->operations->buyAndSale($currency, 'sale');
+        return $this->operations->$method($request, $currency, $method);
     }
 
-    /**
-     *  Сохранения результатов покупки и продажи
-     * @param Request $request
-     * @param Currency $currency
-     * @param string $method
-     * @return RedirectResponse
-     * @throws \Exception
-     */
-    public function buyAndSaleSave(Request $request, Currency $currency, string $method): RedirectResponse
-    {
-        return $this->operations->buyAndSaleSave($request, $currency, $method);
-    }
-
-// Подкрепление
-    public function reinforcement(Currency $currency)
-    {
-
-    }
-
-// Инкассация
-    public function shipment(Currency $currency)
-    {
-
-    }
 
     /**
      *  Приходы
@@ -183,24 +148,6 @@ class CurrencyController extends Controller
     public function expensesAndParishesSave(Request $request, Currency $currency): RedirectResponse
     {
         return $this->operations->expensesAndParishesSave($request, $currency);
-    }
-
-// Остатки
-    public function remains(Currency $currency)
-    {
-
-    }
-
-// Блокнот
-    public function notebook(Currency $currency)
-    {
-
-    }
-
-// Конверсия
-    public function conversion(Currency $currency)
-    {
-
     }
 
 }
