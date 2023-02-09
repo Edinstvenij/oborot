@@ -108,6 +108,8 @@ class CurrencyController extends Controller
 
 
     /**
+     * Вызов операций с валютой
+     *
      * @param Currency $currency
      * @param string $method
      * @return View
@@ -118,6 +120,8 @@ class CurrencyController extends Controller
     }
 
     /**
+     * Вызов сохранение операций с валютой
+     *
      * @param Request $request
      * @param Currency $currency
      * @param string $method
@@ -129,22 +133,4 @@ class CurrencyController extends Controller
         return $this->operations->$method($request, $currency, $method);
     }
 
-    /*
-        public function parishes(Currency $currency): View
-        {
-            return $this->operations->expensesAndParishes($currency, '+');
-
-        }
-
-
-        public function expenses(Currency $currency): View
-        {
-            return $this->operations->expensesAndParishes($currency, '-');
-        }
-
-        public function expensesAndParishesSave(Request $request, Currency $currency): RedirectResponse
-        {
-            return $this->operations->expensesAndParishesSave($request, $currency);
-        }
-    */
 }

@@ -12,6 +12,8 @@ use Illuminate\View\View;
 class CurrencyOperationsServices
 {
     /**
+     * Покупка
+     *
      * @param Currency $currency
      * @param string $method
      * @return View
@@ -25,6 +27,8 @@ class CurrencyOperationsServices
 
 
     /**
+     * Сохранение покупки
+     *
      * @param Request $request
      * @param Currency $currency
      * @param string $method
@@ -64,6 +68,8 @@ class CurrencyOperationsServices
     }
 
     /**
+     * Продажа
+     *
      * @param Currency $currency
      * @param string $method
      * @return View
@@ -76,6 +82,8 @@ class CurrencyOperationsServices
     }
 
     /**
+     * Сохранение продажи
+     *
      * @param Request $request
      * @param Currency $currency
      * @param string $method
@@ -115,6 +123,8 @@ class CurrencyOperationsServices
 
 
     /**
+     * Затраты
+     *
      * @param Currency $currency
      * @param string $method
      * @return View
@@ -126,6 +136,8 @@ class CurrencyOperationsServices
     }
 
     /**
+     * Сохранение затрат
+     *
      * @param Request $request
      * @param Currency $currency
      * @param string $method
@@ -147,6 +159,8 @@ class CurrencyOperationsServices
     }
 
     /**
+     * Приходы
+     *
      * @param Currency $currency
      * @param string $method
      * @return View
@@ -159,6 +173,8 @@ class CurrencyOperationsServices
 
 
     /**
+     * Сохранение приходов
+     *
      *  TODO Добавить историю(Записывать в новую таблицу(БД) комментарий, операцию, число)
      *
      * @param Request $request
