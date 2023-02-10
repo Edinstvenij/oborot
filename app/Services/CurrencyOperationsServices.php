@@ -42,35 +42,15 @@ class CurrencyOperationsServices
      */
     public function buySave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        try {
-            $currencyUah = Currency::query()->find('UAH');
+        $data = [];
 
-            $result = $currency->remainder + $request->get('result');
-            $resultUah = $currencyUah->remainder - $request->get('input');
-            $message = "Куплено ";
+        $data['currencyUah'] = Currency::query()->find('UAH');
 
+        $data['result'] = $currency->remainder + $request->get('result');
+        $data['resultUah'] = $data['currencyUah']->remainder - $request->get('input');
+        $data['message'] = "Куплено ";
 
-            DB::beginTransaction();
-
-            $currency->update([
-                'course' => $request->get('course'),
-                'remainder' => $result,
-            ]);
-            $currencyUah->update([
-                'remainder' => $resultUah
-            ]);
-            event(new CurrencyUpdated($request, $currency, $method));
-
-            DB::commit();
-
-            return redirect()->back()->with('message', [
-                "$message $request->result $currency->name на сумму $request->input $currencyUah->name",
-                'success'
-            ]);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
-        }
+        return $this->saveBuyAndSale($request, $currency, $method, $data);
     }
 
     /**
@@ -101,34 +81,14 @@ class CurrencyOperationsServices
      */
     public function saleSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        try {
-            $currencyUah = Currency::query()->find('UAH');
+        $data = [];
+        $data['currencyUah'] = Currency::query()->find('UAH');
 
-            $result = $currency->remainder - $request->get('result');
-            $resultUah = $currencyUah->remainder + $request->get('input');
-            $message = "Продано ";
+        $data['result'] = $currency->remainder - $request->get('result');
+        $data['resultUah'] = $data['currencyUah']->remainder + $request->get('input');
+        $data['message'] = "Продано ";
 
-            DB::beginTransaction();
-
-            $currency->update([
-                'course' => $request->get('course'),
-                'remainder' => $result,
-            ]);
-            $currencyUah->update([
-                'remainder' => $resultUah
-            ]);
-            event(new CurrencyUpdated($request, $currency, $method));
-
-            DB::commit();
-
-            return redirect()->back()->with('message', [
-                "$message $request->result $currency->name на сумму $request->input $currencyUah->name",
-                'success'
-            ]);
-        } catch (Exception $e) {
-            DB::rollBack();
-            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
-        }
+        return $this->saveBuyAndSale($request, $currency, $method, $data);
     }
 
 
@@ -265,4 +225,43 @@ class CurrencyOperationsServices
     {
 
     }
+
+    /**
+     * Сохранение данных  Buy и Sale методов
+     *
+     * @param Request $request
+     * @param Currency $currency
+     * @param string $method
+     * @param array $data
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    private function saveBuyAndSale(Request $request, Currency $currency, string $method, array $data): RedirectResponse
+    {
+        try {
+            DB::beginTransaction();
+
+            $currency->update([
+                'course' => $request->get('course'),
+                'remainder' => $data['result'],
+            ]);
+
+            $data['currencyUah']->update([
+                'remainder' => $data['resultUah']
+            ]);
+
+            event(new CurrencyUpdated($request, $currency, $method));
+
+            DB::commit();
+            return redirect()->back()->with('message', [
+                "{$data['message']} $request->result $currency->name на сумму $request->input {$data['currencyUah']->name}",
+                'success'
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+        }
+
+    }
+
 }

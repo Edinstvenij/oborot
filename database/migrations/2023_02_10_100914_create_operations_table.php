@@ -25,7 +25,8 @@ return new class extends Migration {
 
             $table->foreign('currency_cipher')->references('cipher')
                 ->on('currencies')
-                ->onDelete('cascade');
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
