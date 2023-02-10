@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\CurrencyUpdated;
 use App\Models\Currency;
+use App\Models\Operation;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,7 +24,9 @@ class CurrencyOperationsServices
     {
         $title = 'Покупка';
         $currencyUah = Currency::where('cipher', 'UAH')->first();
-        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method'));
+        $operations = Operation::filerDate($currency, $method)->get();
+
+        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method', 'operations'));
     }
 
 
@@ -38,8 +41,6 @@ class CurrencyOperationsServices
      */
     public function buySave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-
-
         try {
             $currencyUah = Currency::find('UAH');
 
@@ -84,7 +85,9 @@ class CurrencyOperationsServices
     {
         $title = 'Продажа';
         $currencyUah = Currency::where('cipher', 'UAH')->first();
-        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method'));
+        $operations = Operation::filerDate($currency, $method)->get();
+
+        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method', 'operations'));
     }
 
     /**
@@ -139,7 +142,9 @@ class CurrencyOperationsServices
     public function expenses(Currency $currency, string $method): View
     {
         $title = 'Расходы';
-        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title'));
+        $operations = Operation::filerDate($currency, $method)->get();
+
+        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title', 'operations'));
     }
 
     /**
@@ -177,7 +182,9 @@ class CurrencyOperationsServices
     public function parishes(Currency $currency, string $method): View
     {
         $title = 'Приходы';
-        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title'));
+        $operations = Operation::filerDate($currency, $method)->get();
+
+        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title', 'operations'));
     }
 
 

@@ -1,10 +1,10 @@
-@if($currency->operations()->where('name', $method)->first())
+@if(count($operations))
     <div class="container">
         <h2 class="h2">История транзакций</h2>
         <table id="currencies" class="table table-dark table-hover ">
             <thead>
             <tr>
-                @php($operation = $currency->operations()->where('name', $method)->first())
+                @php($operation = $operations->first())
                 @if($operation->name)
                     <th scope="col">Название</th>
                 @endif
@@ -32,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($currency->operations()->where('name', $method)->get() as $operation)
+            @foreach($operations as $operation)
                 <tr class="row-link">
                     @if($operation->name)
                         <td>{{ $operation->name}}</td>

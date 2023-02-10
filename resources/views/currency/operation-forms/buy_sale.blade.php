@@ -108,6 +108,6 @@
 
 @endcomponent
 
-@component('currency.component.operations', compact('currency', 'method'))
+@component('currency.component.operations', compact('currency', 'method', 'operations'))
 @endcomponent
 
