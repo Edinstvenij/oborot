@@ -23,7 +23,9 @@ return new class extends Migration {
             $table->string('comment')->nullable();
             $table->dateTimeTz('date');
 
-            $table->foreign('currency_cipher')->references('cipher')->on('currencies');
+            $table->foreign('currency_cipher')->references('cipher')
+                ->on('currencies')
+                ->onDelete('cascade');
         });
     }
 

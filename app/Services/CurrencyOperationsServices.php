@@ -23,10 +23,11 @@ class CurrencyOperationsServices
     public function buy(Currency $currency, string $method): View
     {
         $title = 'Покупка';
-        $currencyUah = Currency::where('cipher', 'UAH')->first();
+        $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method', 'operations'));
+        return view('currency.operation-forms.buy_sale',
+            compact('currency', 'currencyUah', 'title', 'method', 'operations'));
     }
 
 
@@ -42,7 +43,7 @@ class CurrencyOperationsServices
     public function buySave(Request $request, Currency $currency, string $method): RedirectResponse
     {
         try {
-            $currencyUah = Currency::find('UAH');
+            $currencyUah = Currency::query()->find('UAH');
 
             $result = $currency->remainder + $request->get('result');
             $resultUah = $currencyUah->remainder - $request->get('input');
@@ -55,11 +56,9 @@ class CurrencyOperationsServices
                 'course' => $request->get('course'),
                 'remainder' => $result,
             ]);
-
             $currencyUah->update([
                 'remainder' => $resultUah
             ]);
-
             event(new CurrencyUpdated($request, $currency, $method));
 
             DB::commit();
@@ -87,7 +86,8 @@ class CurrencyOperationsServices
         $currencyUah = Currency::where('cipher', 'UAH')->first();
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.buy_sale', compact('currency', 'currencyUah', 'title', 'method', 'operations'));
+        return view('currency.operation-forms.buy_sale',
+            compact('currency', 'currencyUah', 'title', 'method', 'operations'));
     }
 
     /**
@@ -102,7 +102,7 @@ class CurrencyOperationsServices
     public function saleSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
         try {
-            $currencyUah = Currency::find('UAH');
+            $currencyUah = Currency::query()->find('UAH');
 
             $result = $currency->remainder - $request->get('result');
             $resultUah = $currencyUah->remainder + $request->get('input');
@@ -144,7 +144,8 @@ class CurrencyOperationsServices
         $title = 'Расходы';
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title', 'operations'));
+        return view('currency.operation-forms.expenses_parishes',
+            compact('currency', 'method', 'title', 'operations'));
     }
 
     /**
@@ -154,15 +155,25 @@ class CurrencyOperationsServices
      * @param Currency $currency
      * @param string $method
      * @return RedirectResponse
+     * @throws Exception
      */
     public function expensesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        $result = $currency->remainder - $request->get('result');
-        $currency->update([
-            'remainder' => $result
-        ]);
+        try {
+            DB::beginTransaction();
+            $result = $currency->remainder - $request->get('result');
+            $currency->update([
+                'remainder' => $result
+            ]);
 
-        event(new CurrencyUpdated($request, $currency, $method));
+            event(new CurrencyUpdated($request, $currency, $method));
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+        }
+
 
         return redirect()
             ->back()
@@ -184,28 +195,37 @@ class CurrencyOperationsServices
         $title = 'Приходы';
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.expenses_parishes', compact('currency', 'method', 'title', 'operations'));
+        return view('currency.operation-forms.expenses_parishes',
+            compact('currency', 'method', 'title', 'operations'));
     }
 
 
     /**
      * Сохранение приходов
      *
-     *  TODO Добавить историю(Записывать в новую таблицу(БД) комментарий, операцию, число)
-     *
      * @param Request $request
      * @param Currency $currency
+     * @param string $method
      * @return RedirectResponse
+     * @throws Exception
      */
     public function parishesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        $result = $currency->remainder + $request->get('result');
+        try {
+            DB::beginTransaction();
 
-        $currency->update([
-            'remainder' => $result
-        ]);
+            $result = $currency->remainder + $request->get('result');
+            $currency->update([
+                'remainder' => $result
+            ]);
 
-        event(new CurrencyUpdated($request, $currency, $method));
+            event(new CurrencyUpdated($request, $currency, $method));
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+        }
 
         return redirect()
             ->back()
