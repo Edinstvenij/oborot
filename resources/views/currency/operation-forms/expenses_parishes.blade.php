@@ -19,3 +19,5 @@
     </form>
 
 @endcomponent
+@component('currency.component.operations', compact('currency', 'method'))
+@endcomponent

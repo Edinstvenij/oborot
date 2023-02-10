@@ -107,3 +107,7 @@
     </div>
 
 @endcomponent
+
+@component('currency.component.operations', compact('currency', 'method'))
+@endcomponent
+
