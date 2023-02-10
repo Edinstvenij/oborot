@@ -1,5 +1,5 @@
 @component('currency.component.form-operations', compact('currency', 'title'))
-    <form action="{{ route('currency.operations.save', [$currency, $method.'Save']) }}" method="POST">
+    <form action="{{ route('currency.operations.save', [$currency, $method]) }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="number" class="form-label">Введите цифры*</label>

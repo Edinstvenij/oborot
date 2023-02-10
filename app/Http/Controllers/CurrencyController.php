@@ -130,6 +130,7 @@ class CurrencyController extends Controller
      */
     public function startOperationsSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        $method .= 'Save';
         return $this->operations->$method($request, $currency, $method);
     }
 

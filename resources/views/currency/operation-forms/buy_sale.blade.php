@@ -4,7 +4,7 @@
             <div class="col-8">
                 <!-- Content -->
                 <div class="card p-3">
-                    <form action="{{ route('currency.operations.save', [$currency, $method.'Save']) }}" method="POST">
+                    <form action="{{ route('currency.operations.save', [$currency, $method]) }}" method="POST">
                         @csrf
                         <h1 class="h2 mb-4">Конвертер валют</h1>
 
