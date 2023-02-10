@@ -16,7 +16,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('currency_cipher', '3');
+            $table->string('currency_cipher_donor')->nullable();
+            $table->float('course', 8, 4)->nullable();
             $table->integer('sum')->nullable();
+            $table->integer('sum_donor')->nullable();
             $table->string('comment')->nullable();
             $table->dateTimeTz('date');
 

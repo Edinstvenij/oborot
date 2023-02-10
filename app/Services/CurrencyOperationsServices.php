@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\CurrencyUpdated;
 use App\Models\Currency;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -37,6 +38,8 @@ class CurrencyOperationsServices
      */
     public function buySave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+
+
         try {
             $currencyUah = Currency::find('UAH');
 
@@ -51,9 +54,12 @@ class CurrencyOperationsServices
                 'course' => $request->get('course'),
                 'remainder' => $result,
             ]);
+
             $currencyUah->update([
                 'remainder' => $resultUah
             ]);
+
+            event(new CurrencyUpdated($request, $currency, $method));
 
             DB::commit();
 
@@ -108,6 +114,7 @@ class CurrencyOperationsServices
             $currencyUah->update([
                 'remainder' => $resultUah
             ]);
+            event(new CurrencyUpdated($request, $currency, $method));
 
             DB::commit();
 
@@ -145,15 +152,17 @@ class CurrencyOperationsServices
      */
     public function expensesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        $result = $currency->remainder - $request->get('number');
+        $result = $currency->remainder - $request->get('result');
         $currency->update([
             'remainder' => $result
         ]);
 
+        event(new CurrencyUpdated($request, $currency, $method));
+
         return redirect()
             ->back()
             ->with('message', [
-                "$request->number $currency->name на '$request->comment' успешно потрачена",
+                "$request->result $currency->name на '$request->comment' успешно потрачена",
                 'success'
             ]);
     }
@@ -181,18 +190,20 @@ class CurrencyOperationsServices
      * @param Currency $currency
      * @return RedirectResponse
      */
-    public function parishesSave(Request $request, Currency $currency): RedirectResponse
+    public function parishesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
-        $result = $currency->remainder + $request->get('number');
+        $result = $currency->remainder + $request->get('result');
 
         $currency->update([
             'remainder' => $result
         ]);
 
+        event(new CurrencyUpdated($request, $currency, $method));
+
         return redirect()
             ->back()
             ->with('message', [
-                "$request->number $currency->name на '$request->comment' успешно добавлены",
+                "$request->result $currency->name на '$request->comment' успешно добавлены",
                 'success'
             ]);
     }

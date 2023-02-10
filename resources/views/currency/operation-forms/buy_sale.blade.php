@@ -6,6 +6,8 @@
                 <div class="card p-3">
                     <form action="{{ route('currency.operations.save', [$currency, $method]) }}" method="POST">
                         @csrf
+                        <input type="hidden" name="currency_cipher_donor" value="{{ $currencyUah->cipher }}">
+
                         <h1 class="h2 mb-4">Конвертер валют</h1>
 
                         {{--                        <div class="courses">--}}
@@ -35,15 +37,15 @@
                         @if($method === 'buy')
                             <div class="row mb-1">
                                 <div class="col">
-                                    <label for="name">Отдаю:</label>
-                                    <select disabled class="form-control" id="exampleFormControlSelect1">
+                                    <label for="input">Отдаю:</label>
+                                    <select class="form-control" disabled>
                                         <option value="{{ $currencyUah->cipher }}"
                                                 selected>{{ $currencyUah->cipher .' — '. $currencyUah->name }}</option>
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="name">Получаю:</label>
-                                    <select id="select" class="form-control" id="exampleFormControlSelect1" disabled>
+                                    <label for="result">Получаю:</label>
+                                    <select class="form-control" disabled>
                                         <option value="{{ $currency->cipher }}"
                                                 selected>{{$currency->cipher .' — '. $currency->name}}</option>
                                     </select>
@@ -65,16 +67,16 @@
                         @else
                             <div class="row mb-1">
                                 <div class="col">
-                                    <label for="name">Отдаю:</label>
-                                    <select id="select" class="form-control" id="exampleFormControlSelect1" disabled>
+                                    <label for="result">Отдаю:</label>
+                                    <select id="select" class="form-control" disabled>
                                         <option value="{{ $currency->cipher }}"
                                                 selected>{{$currency->cipher .' — '. $currency->name}}</option>
                                     </select>
                                 </div>
 
                                 <div class="col">
-                                    <label for="name">Получаю:</label>
-                                    <select disabled class="form-control" id="exampleFormControlSelect1">
+                                    <label for="input">Получаю:</label>
+                                    <select disabled class="form-control">
                                         <option value="{{ $currencyUah->cipher }}"
                                                 selected>{{ $currencyUah->cipher .' — '. $currencyUah->name }}</option>
                                     </select>

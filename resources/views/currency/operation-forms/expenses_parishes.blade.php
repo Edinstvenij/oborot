@@ -4,7 +4,7 @@
         <div class="mb-3">
             <label for="number" class="form-label">Введите цифры*</label>
             <input type="number" class="form-control" id="number"
-                   name="number"
+                   name="result"
                    placeholder="@if($method === 'expenses') Сколько потратили? @else Сколько получили?@endif"
                    required>
         </div>
