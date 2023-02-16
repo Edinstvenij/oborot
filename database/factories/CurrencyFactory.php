@@ -14,14 +14,14 @@ class CurrencyFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'code' => '840',
             'cipher' => 'USD',
             'name' => 'Доллар США',
             'course' => null,
-            'remainder' => 0
+            'remainder' => $this->faker->randomNumber(rand(3, 5))
         ];
     }
 }

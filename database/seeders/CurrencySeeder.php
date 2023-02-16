@@ -12,7 +12,7 @@ class CurrencySeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $currency = [
             [
@@ -160,7 +160,6 @@ class CurrencySeeder extends Seeder
                 'code' => $value['code'],
                 'cipher' => $value['cipher'],
                 'name' => $value['name'],
-                'remainder' => $value['remainder'],
             ])->save();
             sleep(1);
         }
