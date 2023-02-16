@@ -34,4 +34,13 @@ class Currency extends Model
         return $this->hasMany(Operation::class);
     }
 
+    /**
+     * @param string $date
+     * @return HasMany
+     */
+    public function remainderDay(string $date): HasMany
+    {
+        return $this->hasMany(RemainderDay::class, 'cipher')->where('date', $date);
+    }
+
 }

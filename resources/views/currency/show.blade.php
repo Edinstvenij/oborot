@@ -5,7 +5,7 @@
 @section('content')
     <a href="{{ route('currency.index') }}" class="btn btn-secondary mt-3">Назад</a>
 
-    @component('currency.component.card', compact('currency'))
+    @component('currency.components.card', compact('currency'))
         <a href="{{ route('currency.edit', $currency) }}" class="btn btn-warning mb-2">Редактировать</a>
         <form action="{{ route('currency.destroy',$currency) }}" method="POST">
             @csrf

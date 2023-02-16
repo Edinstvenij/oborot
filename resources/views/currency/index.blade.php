@@ -3,6 +3,9 @@
 @section('title','Оборот')
 
 @section('content')
+    @if(!empty($date))
+        <h2>{{ \Carbon\Carbon::make( $date)->format('Y m d')  }}</h2>
+    @endif
     <table id="currencies" class="table table-dark table-hover ">
         <thead>
         <tr>
@@ -22,12 +25,25 @@
                 <td>{{ $currency->code }}</td>
                 <td>{{ $currency->cipher }}</td>
                 <td>{{ $currency->name }}</td>
-                <td>{{ $currency->remainder }}</td>
+                @if(!empty($date))
+                    <td>{{ $currency->remainderDay($date)->first()->remainder ?? 0 }}</td>
+                @else
+                    <td>{{ $currency->remainder }}</td>
+                @endif
             </tr>
         @endforeach
         </tbody>
     </table>
 
+    @if(!empty($date))
+        <a href="{{ route('currency.index') }}"
+           class="position-fixed bottom-0 start-0  translate-middle btn btn-sm btn-primary rounded-pill"
+           style="margin-left: 50px">Назад</a>
+    @else
+        <a href="{{ route('currency.index') }}?date={{ date("Y-m-d", time()-(60*60*24)) }}"
+           class="position-fixed bottom-0 start-0  translate-middle btn btn-sm btn-primary rounded-pill"
+           style="margin-left: 50px">История</a>
+    @endif
 
     <a href="{{ route('currency.create') }}"
        class="position-fixed bottom-0 end-0  translate-middle btn btn-sm btn-primary rounded-pill"

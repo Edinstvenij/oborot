@@ -27,8 +27,7 @@ class CurrencyController extends Controller
      */
     public function index(): View
     {
-        $currencies = Currency::query()->orderBy('created_at')->get();
-        return view('currency.index', compact('currencies'));
+        return $this->operations->index();
     }
 
     /**
@@ -50,14 +49,16 @@ class CurrencyController extends Controller
     public function store(CurrencyRequest $request): RedirectResponse
     {
         Currency::create($request->validated());
-        return redirect()->route('currency.index')->with('message',
-            ['Создана новая валюта: ' . $request->name, 'success']);
+        return redirect()->route('currency.index')->with(
+            'message',
+            ['Создана новая валюта: ' . $request->name, 'success']
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Currency $currency
+     * @param Currency $currency
      * @return View
      */
     public function show(Currency $currency): View
@@ -68,13 +69,12 @@ class CurrencyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Currency $currency
+     * @param Currency $currency
      * @return View
      */
     public function edit(Currency $currency): View
     {
         return view('currency.edit', compact('currency'));
-
     }
 
     /**
@@ -93,7 +93,7 @@ class CurrencyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Currency $currency
+     * @param Currency $currency
      * @return RedirectResponse
      */
     public function destroy(Currency $currency): RedirectResponse

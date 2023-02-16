@@ -1,4 +1,4 @@
-@component('currency.component.form-operations', ['currency' => $currency, 'title' => $title])
+@component('currency.components.form-operations', ['currency' => $currency, 'title' => $title])
     <div class="container pt-5 pb-5">
         <div class="row justify-content-center">
             <div class="col-8">
@@ -108,6 +108,6 @@
 
 @endcomponent
 
-@component('currency.component.operations', compact('currency', 'method', 'operations'))
+@component('currency.components.operations', compact('currency', 'method', 'operations'))
 @endcomponent
 

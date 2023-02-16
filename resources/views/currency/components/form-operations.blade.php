@@ -7,7 +7,7 @@
 
     <h1 class="display-1 mt-5">{{ $title }}</h1>
 
-    @component('currency.component.card', compact('currency'))
+    @component('currency.components.card', compact('currency'))
     @endcomponent
     {{-- $slot === form --}}
     {{ $slot }}

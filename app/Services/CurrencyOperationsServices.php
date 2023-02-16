@@ -14,6 +14,22 @@ use Illuminate\View\View;
 class CurrencyOperationsServices
 {
     /**
+     * @return View
+     */
+    public function index(): View
+    {
+        $currencies = Currency::query()->orderBy('created_at')->get();
+
+        if (request()->query->has('date')) {
+            $date = request()->query->get('date');
+            return view('currency.index', compact('currencies', 'date'));
+        }
+
+        return view('currency.index', compact('currencies'));
+    }
+
+
+    /**
      * Покупка
      *
      * @param Currency $currency
@@ -26,8 +42,10 @@ class CurrencyOperationsServices
         $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.buy_sale',
-            compact('currency', 'currencyUah', 'title', 'method', 'operations'));
+        return view(
+            'currency.operation-forms.buy_sale',
+            compact('currency', 'currencyUah', 'title', 'method', 'operations')
+        );
     }
 
 
@@ -66,8 +84,10 @@ class CurrencyOperationsServices
         $currencyUah = Currency::where('cipher', 'UAH')->first();
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.buy_sale',
-            compact('currency', 'currencyUah', 'title', 'method', 'operations'));
+        return view(
+            'currency.operation-forms.buy_sale',
+            compact('currency', 'currencyUah', 'title', 'method', 'operations')
+        );
     }
 
     /**
@@ -104,8 +124,10 @@ class CurrencyOperationsServices
         $title = 'Расходы';
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.expenses_parishes',
-            compact('currency', 'method', 'title', 'operations'));
+        return view(
+            'currency.operation-forms.expenses_parishes',
+            compact('currency', 'method', 'title', 'operations')
+        );
     }
 
     /**
@@ -155,8 +177,10 @@ class CurrencyOperationsServices
         $title = 'Приходы';
         $operations = Operation::filerDate($currency, $method)->get();
 
-        return view('currency.operation-forms.expenses_parishes',
-            compact('currency', 'method', 'title', 'operations'));
+        return view(
+            'currency.operation-forms.expenses_parishes',
+            compact('currency', 'method', 'title', 'operations')
+        );
     }
 
 
@@ -199,31 +223,26 @@ class CurrencyOperationsServices
     // Подкрепление
     public function reinforcement(Currency $currency)
     {
-
     }
 
     // Инкассация
     public function shipment(Currency $currency)
     {
-
     }
 
     // Остатки
     public function remains(Currency $currency)
     {
-
     }
 
     // Блокнот
     public function notebook(Currency $currency)
     {
-
     }
 
     // Конверсия
     public function conversion(Currency $currency)
     {
-
     }
 
     /**
@@ -261,7 +280,6 @@ class CurrencyOperationsServices
             DB::rollBack();
             return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
         }
-
     }
 
 }

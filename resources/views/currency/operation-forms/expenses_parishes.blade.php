@@ -1,4 +1,4 @@
-@component('currency.component.form-operations', compact('currency', 'title'))
+@component('currency.components.form-operations', compact('currency', 'title'))
     <form action="{{ route('currency.operations.save', [$currency, $method]) }}" method="POST">
         @csrf
         <div class="mb-3">
@@ -19,5 +19,5 @@
     </form>
 
 @endcomponent
-@component('currency.component.operations', compact('currency', 'method', 'operations'))
+@component('currency.components.operations', compact('currency', 'method', 'operations'))
 @endcomponent
