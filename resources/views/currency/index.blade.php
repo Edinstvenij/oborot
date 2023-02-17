@@ -68,21 +68,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="list-group">
-                        <a href="{{ route('currency.operations', ['replacement', 'buy']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'buy']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark">Покупка</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'sale']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'sale']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark">Продажа</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'reinforcement']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'reinforcement']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Подкрепление</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'shipment']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'shipment']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Инкассация</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'parishes']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'parishes']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark">Приходы</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'expenses']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'expenses']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark">Расходы</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'remains']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'remains']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Конверсия</a>
-                        <a href="{{ route('currency.operations', ['replacement', 'notebook']) }}"
+                        <a href="{{ route('currency.operations', ['replacement', 'notebook']) }}@if(!empty($date))?date={{ $date }} @endif"
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Блокнот</a>
                     </div>
                     <hr>

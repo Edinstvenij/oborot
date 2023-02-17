@@ -3,7 +3,7 @@
 @section('title', $currency->name)
 
 @section('content')
-    <a href="{{ route('currency.index') }}" class="btn btn-secondary mt-3">Назад</a>
+    <a href="{{ back()->getTargetUrl() }}" class="btn btn-secondary mt-3">Назад</a>
 
     <h1 class="display-1 mt-5">{{ $title }}</h1>
 

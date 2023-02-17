@@ -21,6 +21,9 @@ class OperationBuilder extends Builder
         if ($date === null) {
             $date = Carbon::today();
         }
-        return $currency->operations()->where('name', $method)->where('date', '>', Carbon::parse($date));
+        return $currency->operations()
+            ->where('name', $method)
+            ->where('date', '>', Carbon::parse($date))
+            ->where('date', '<', Carbon::parse($date)->addDay());
     }
 }

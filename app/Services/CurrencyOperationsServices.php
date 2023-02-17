@@ -40,9 +40,13 @@ class CurrencyOperationsServices
      */
     public function buy(Currency $currency, string $method): View
     {
+        if (request()->query->has('date')) {
+            $date = request()->query->get('date');
+            request()->validate(['date' => ['required', 'date']]);
+        }
         $title = 'Покупка';
         $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
-        $operations = Operation::filerDate($currency, $method)->get();
+        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
 
         return view(
             'currency.operation-forms.buy_sale',
@@ -82,9 +86,14 @@ class CurrencyOperationsServices
      */
     public function sale(Currency $currency, string $method): View
     {
+        if (request()->query->has('date')) {
+            $date = request()->query->get('date');
+            request()->validate(['date' => ['required', 'date']]);
+        }
+
         $title = 'Продажа';
         $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
-        $operations = Operation::filerDate($currency, $method)->get();
+        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
 
         return view(
             'currency.operation-forms.buy_sale',
@@ -123,8 +132,13 @@ class CurrencyOperationsServices
      */
     public function expenses(Currency $currency, string $method): View
     {
+        if (request()->query->has('date')) {
+            $date = request()->query->get('date');
+            request()->validate(['date' => ['required', 'date']]);
+        }
+
         $title = 'Расходы';
-        $operations = Operation::filerDate($currency, $method)->get();
+        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
 
         return view(
             'currency.operation-forms.expenses_parishes',
@@ -176,8 +190,13 @@ class CurrencyOperationsServices
      */
     public function parishes(Currency $currency, string $method): View
     {
+        if (request()->query->has('date')) {
+            $date = request()->query->get('date');
+            request()->validate(['date' => ['required', 'date']]);
+        }
+        
         $title = 'Приходы';
-        $operations = Operation::filerDate($currency, $method)->get();
+        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
 
         return view(
             'currency.operation-forms.expenses_parishes',
