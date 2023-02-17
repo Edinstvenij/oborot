@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CurrencySeeder::class);
         $this->call(OperationSeeder::class);
+        $this->call(RemainderDaySeeder::class);
     }
 }
