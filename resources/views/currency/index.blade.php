@@ -4,7 +4,7 @@
 
 @section('content')
     @if(!empty($date))
-        <h2>{{ \Carbon\Carbon::make( $date)->format('Y m d')  }}</h2>
+        <h2>История за: {{ \Carbon\Carbon::make($date)->format('Y m d')  }}</h2>
     @endif
     <table id="currencies" class="table table-dark table-hover ">
         <thead>
@@ -26,7 +26,7 @@
                 <td>{{ $currency->cipher }}</td>
                 <td>{{ $currency->name }}</td>
                 @if(!empty($date))
-                    <td>{{ $currency->remainderDay($date)->first()->remainder ?? 0 }}</td>
+                    <td>{{ $currency->remainderDay->first()->remainder ?? 0 }}</td>
                 @else
                     <td>{{ $currency->remainder }}</td>
                 @endif

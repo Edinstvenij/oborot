@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\QueryBuilders\CurrencyBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -35,12 +36,20 @@ class Currency extends Model
     }
 
     /**
-     * @param string $date
      * @return HasMany
      */
-    public function remainderDay(string $date): HasMany
+    public function remainderDay(): HasMany
     {
-        return $this->hasMany(RemainderDay::class, 'cipher')->where('date', $date);
+        return $this->hasMany(RemainderDay::class, 'cipher');
     }
 
+
+    /**
+     * @param $query
+     * @return CurrencyBuilder
+     */
+    public function newEloquentBuilder($query): CurrencyBuilder
+    {
+        return new CurrencyBuilder($query);
+    }
 }

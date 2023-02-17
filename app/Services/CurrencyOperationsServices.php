@@ -18,13 +18,13 @@ class CurrencyOperationsServices
      */
     public function index(): View
     {
-        $currencies = Currency::query()->orderBy('created_at')->get();
-
         if (request()->query->has('date')) {
             $date = request()->query->get('date');
+            $currencies = Currency::withRemainderDay($date)->get();
             return view('currency.index', compact('currencies', 'date'));
         }
 
+        $currencies = Currency::query()->orderBy('created_at')->get();
         return view('currency.index', compact('currencies'));
     }
 
@@ -81,7 +81,7 @@ class CurrencyOperationsServices
     public function sale(Currency $currency, string $method): View
     {
         $title = 'Продажа';
-        $currencyUah = Currency::where('cipher', 'UAH')->first();
+        $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
         $operations = Operation::filerDate($currency, $method)->get();
 
         return view(

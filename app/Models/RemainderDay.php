@@ -17,7 +17,10 @@ class RemainderDay extends Model
 
     public $timestamps = false;
 
-    public function currency()
+    /**
+     * @return void
+     */
+    public function currency(): void
     {
         $this->belongsTo(Currency::class, 'cipher', 'cipher');
     }

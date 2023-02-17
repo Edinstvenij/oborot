@@ -14,9 +14,9 @@ class OperationBuilder extends Builder
      * @param Currency $currency
      * @param string $method
      * @param string|null $date
-     * @return HasMany|void
+     * @return HasMany
      */
-    public function filerDate(Currency $currency, string $method, string $date = null)
+    public function filerDate(Currency $currency, string $method, string $date = null): HasMany
     {
         if ($date === null) {
             $date = Carbon::today();
