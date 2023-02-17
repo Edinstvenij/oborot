@@ -20,6 +20,8 @@ class CurrencyOperationsServices
     {
         if (request()->query->has('date')) {
             $date = request()->query->get('date');
+            request()->validate(['date' => ['required', 'date']]);
+
             $currencies = Currency::withRemainderDay($date)->get();
             return view('currency.index', compact('currencies', 'date'));
         }

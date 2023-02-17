@@ -4,7 +4,13 @@
 
 @section('content')
     @if(!empty($date))
-        <h2>История за: {{ \Carbon\Carbon::make($date)->format('Y m d')  }}</h2>
+        <form action="{{ route('currency.index') }}" method="GET" class="mb-2">
+            <label class="h2 me-2" for="date">История за:</label>
+            <input class="input" type="date" name="date" id="date" value="{{$date}}"
+                   min="2023-02-06"
+                   max="{{ \Carbon\Carbon::yesterday()->format('Y-m-d') }}">
+            <button class="btn btn-light ms-2" type="submit">Выбрать</button>
+        </form>
     @endif
     <table id="currencies" class="table table-dark table-hover ">
         <thead>
