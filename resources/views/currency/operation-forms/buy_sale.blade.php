@@ -1,4 +1,4 @@
-@component('currency.components.form-operations', ['currency' => $currency, 'title' => $title])
+@component('currency.operations', ['currency' => $currency, 'title' => $title])
     @if($errors->any())
         <div class="alert alert-danger mt-5" role="alert">
             {{ $errors->first()}}
@@ -72,6 +72,6 @@
 
 @endcomponent
 
-@component('currency.components.operations', compact('currency', 'method', 'operations'))
+@component('currency.components.operations-history', compact('currency', 'method', 'operations'))
 @endcomponent
 
