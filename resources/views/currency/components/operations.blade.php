@@ -1,27 +1,21 @@
 @if(count($operations))
     <div class="container">
-        <h2 class="h2">История транзакций</h2>
+        <h2 class="h2">История операций</h2>
         <table id="currencies" class="table table-dark table-hover ">
             <thead>
             <tr>
                 @php($operation = $operations->first())
-                @if($operation->name)
-                    <th scope="col">Название</th>
-                @endif
                 @if($operation->currency_cipher)
                     <th scope="col">Шифр</th>
-                @endif
-                @if($operation->currency_cipher_donor)
-                    <th scope="col">Шифр второй валюты</th>
-                @endif
-                @if($operation->course)
-                    <th scope="col">Курс операции</th>
                 @endif
                 @if($operation->sum)
                     <th scope="col">Сумма</th>
                 @endif
+                @if($operation->course)
+                    <th scope="col">Курс операции</th>
+                @endif
                 @if($operation->sum_donor)
-                    <th scope="col">Сумма второй валюты</th>
+                    <th scope="col">Гривна</th>
                 @endif
                 @if($operation->comment)
                     <th scope="col">Комментарий</th>
@@ -34,22 +28,16 @@
             <tbody>
             @foreach($operations as $operation)
                 <tr class="row-link">
-                    @if($operation->name)
-                        <td>{{ $operation->name}}</td>
-                    @endif
                     @if($operation->currency_cipher)
                         <td>{{ $operation->currency_cipher}}</td>
                     @endif
-                    @if($operation->currency_cipher_donor)
-                        <td>{{ $operation->currency_cipher_donor}}</td>
-                    @endif
-                    @if($operation->course)
-                        <td>{{ $operation->course}}</td>
-                    @endif
-                    @if($operation->sum)
+                    @if($operation->sum !== null)
                         <td>{{ $operation->sum}}</td>
                     @endif
-                    @if($operation->sum_donor)
+                    @if($operation->course !== null)
+                        <td>{{ $operation->course}}</td>
+                    @endif
+                    @if($operation->sum_donor !== null)
                         <td>{{ $operation->sum_donor}}</td>
                     @endif
                     @if($operation->comment)

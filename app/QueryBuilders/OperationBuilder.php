@@ -24,6 +24,7 @@ class OperationBuilder extends Builder
         return $currency->operations()
             ->where('name', $method)
             ->where('date', '>', Carbon::parse($date))
-            ->where('date', '<', Carbon::parse($date)->addDay());
+            ->where('date', '<', Carbon::parse($date)->addDay())
+            ->orderBy('date');
     }
 }

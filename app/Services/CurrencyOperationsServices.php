@@ -66,6 +66,11 @@ class CurrencyOperationsServices
      */
     public function buySave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        $request->validate([
+            'result' => ['required'],
+            'input' => ['required']
+        ]);
+
         $data = [];
 
         $data['currencyUah'] = Currency::query()->find('UAH');
@@ -112,6 +117,11 @@ class CurrencyOperationsServices
      */
     public function saleSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        $request->validate([
+            'result' => ['required'],
+            'input' => ['required']
+        ]);
+
         $data = [];
         $data['currencyUah'] = Currency::query()->find('UAH');
 
@@ -174,7 +184,7 @@ class CurrencyOperationsServices
 
 
         return redirect()
-            ->back()
+            ->route('currency.index')
             ->with('message', [
                 "$request->result $currency->name на '$request->comment' успешно потрачена",
                 'success'
@@ -194,7 +204,7 @@ class CurrencyOperationsServices
             $date = request()->query->get('date');
             request()->validate(['date' => ['required', 'date']]);
         }
-        
+
         $title = 'Приходы';
         $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
 
@@ -233,7 +243,7 @@ class CurrencyOperationsServices
         }
 
         return redirect()
-            ->back()
+            ->route('currency.index')
             ->with('message', [
                 "$request->result $currency->name на '$request->comment' успешно добавлены",
                 'success'
@@ -293,7 +303,7 @@ class CurrencyOperationsServices
             event(new CurrencyUpdated($request, $currency, $method));
 
             DB::commit();
-            return redirect()->back()->with('message', [
+            return redirect()->route('currency.index')->with('message', [
                 "{$data['message']} $request->result $currency->name на сумму $request->input {$data['currencyUah']->name}",
                 'success'
             ]);
