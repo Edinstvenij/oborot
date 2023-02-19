@@ -8,8 +8,8 @@
 
     <h1 class="display-1 mt-5">{{ $title }}</h1>
     @if(!request()->query->has('date'))
-        @component('currency.components.card', compact('currency'))@endcomponent
-        
+        @component('currency.components.card', compact('currency'))
+        @endcomponent
         {{-- $slot === form --}}
         {{ $slot }}
 
