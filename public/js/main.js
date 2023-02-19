@@ -39,16 +39,8 @@ if (document.querySelector('#course')) {
     const input = document.querySelector('#input');
     const result = document.querySelector('#result');
 
-    input.oninput = function () {
-        result.value = (input.value / course.value).toFixed(2);
-    }
-
     result.oninput = function () {
         input.value = (result.value * course.value).toFixed(2);
-    }
-
-    course.oninput = function () {
-        result.value = (input.value / course.value).toFixed(2);
     }
 }
 
