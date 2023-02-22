@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
 
 class CurrencyOperationsServices
 {
     /**
+     * Все валюты
+     *
      * @param string|null $date
      * @return Collection
      */
@@ -32,22 +33,21 @@ class CurrencyOperationsServices
      *
      * @param Currency $currency
      * @param string $method
-     * @return View
+     * @param string|null $date
+     * @return array
      */
-    public function buy(Currency $currency, string $method): View
+    public function buy(Currency $currency, string $method, string $date = null): array
     {
-        if (request()->query->has('date')) {
-            $date = request()->query->get('date');
-            request()->validate(['date' => ['required', 'date']]);
-        }
-        $title = 'Покупка';
-        $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
-        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
+        $data = [];
+        $data['currency'] = $currency;
+        $data['method'] = $method;
+        $data['date'] = $date;
 
-        return view(
-            'currency.operation-forms.buy_sale',
-            compact('currency', 'currencyUah', 'title', 'method', 'operations')
-        );
+        $data['view'] = 'buy_sale';
+        $data['title'] = 'Покупка';
+        $data['currencyUah'] = Currency::query()->where('cipher', 'UAH')->first();
+        $data['operations'] = Operation::filerDate($currency, $method, $date)->get();
+        return $data;
     }
 
 
@@ -68,9 +68,7 @@ class CurrencyOperationsServices
         ]);
 
         $data = [];
-
         $data['currencyUah'] = Currency::query()->find('UAH');
-
         $data['result'] = $currency->remainder + $request->get('result');
         $data['resultUah'] = $data['currencyUah']->remainder - $request->get('input');
         $data['message'] = "Куплено ";
@@ -78,28 +76,28 @@ class CurrencyOperationsServices
         return $this->saveBuyAndSale($request, $currency, $method, $data);
     }
 
+
     /**
      * Продажа
      *
      * @param Currency $currency
      * @param string $method
-     * @return View
+     * @param string|null $date
+     * @return array
      */
-    public function sale(Currency $currency, string $method): View
+    public function sale(Currency $currency, string $method, string $date = null): array
     {
-        if (request()->query->has('date')) {
-            $date = request()->query->get('date');
-            request()->validate(['date' => ['required', 'date']]);
-        }
+        $data = [];
+        $data['currency'] = $currency;
+        $data['method'] = $method;
+        $data['date'] = $date;
 
-        $title = 'Продажа';
-        $currencyUah = Currency::query()->where('cipher', 'UAH')->first();
-        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
+        $data['view'] = 'buy_sale';
+        $data['title'] = 'Продажа';
+        $data['currencyUah'] = Currency::query()->where('cipher', 'UAH')->first();
+        $data['operations'] = Operation::filerDate($currency, $method, $date)->get();
 
-        return view(
-            'currency.operation-forms.buy_sale',
-            compact('currency', 'currencyUah', 'title', 'method', 'operations')
-        );
+        return $data;
     }
 
     /**
@@ -130,30 +128,29 @@ class CurrencyOperationsServices
 
 
     /**
-     * Затраты
+     * Расходы
      *
      * @param Currency $currency
      * @param string $method
-     * @return View
+     * @param string|null $date
+     * @return array
      */
-    public function expenses(Currency $currency, string $method): View
+    public function expenses(Currency $currency, string $method, string $date = null): array
     {
-        if (request()->query->has('date')) {
-            $date = request()->query->get('date');
-            request()->validate(['date' => ['required', 'date']]);
-        }
+        $data = [];
+        $data['currency'] = $currency;
+        $data['method'] = $method;
+        $data['date'] = $date;
 
-        $title = 'Расходы';
-        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
+        $data['view'] = 'expenses_parishes';
+        $data['title'] = 'Расходы';
+        $data['operations'] = Operation::filerDate($currency, $method, $date)->get();
 
-        return view(
-            'currency.operation-forms.expenses_parishes',
-            compact('currency', 'method', 'title', 'operations')
-        );
+        return $data;
     }
 
     /**
-     * Сохранение затрат
+     * Сохранение Расходы
      *
      * @param Request $request
      * @param Currency $currency
@@ -175,7 +172,7 @@ class CurrencyOperationsServices
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+            throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
         }
 
 
@@ -187,27 +184,27 @@ class CurrencyOperationsServices
             ]);
     }
 
+
     /**
      * Приходы
      *
      * @param Currency $currency
      * @param string $method
-     * @return View
+     * @param string|null $date
+     * @return array
      */
-    public function parishes(Currency $currency, string $method): View
+    public function parishes(Currency $currency, string $method, string $date = null): array
     {
-        if (request()->query->has('date')) {
-            $date = request()->query->get('date');
-            request()->validate(['date' => ['required', 'date']]);
-        }
+        $data = [];
+        $data['currency'] = $currency;
+        $data['method'] = $method;
+        $data['date'] = $date;
 
-        $title = 'Приходы';
-        $operations = Operation::filerDate($currency, $method, $date ?? null)->get();
+        $data['view'] = 'expenses_parishes';
+        $data['title'] = 'Приходы';
+        $data['operations'] = Operation::filerDate($currency, $method, $date ?? null)->get();
 
-        return view(
-            'currency.operation-forms.expenses_parishes',
-            compact('currency', 'method', 'title', 'operations')
-        );
+        return $data;
     }
 
 
@@ -234,7 +231,7 @@ class CurrencyOperationsServices
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+            throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
         }
 
         return redirect()
@@ -303,7 +300,7 @@ class CurrencyOperationsServices
             ]);
         } catch (Exception $e) {
             DB::rollBack();
-            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+            throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
         }
     }
 

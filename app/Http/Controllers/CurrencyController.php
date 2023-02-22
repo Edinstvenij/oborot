@@ -31,7 +31,7 @@ class CurrencyController extends Controller
         if ($request->query->has('date')) {
             $request->validate(['date' => ['required', 'date']]);
 
-            $date = $request->query->get('date');
+            $date = $request->get('date');
             $currencies = $this->operations->index($date);
             return view('currency.index', compact('currencies', 'date'));
         }
@@ -120,13 +120,18 @@ class CurrencyController extends Controller
     /**
      * Вызов операций с валютой
      *
+     * @param Request $request
      * @param Currency $currency
      * @param string $method
      * @return View
      */
-    public function startOperations(Currency $currency, string $method): View
+    public function startOperations(Request $request, Currency $currency, string $method): View
     {
-        return $this->operations->$method($currency, $method);
+        $request->validate(['date' => 'date']);
+
+        $data = $this->operations->$method($currency, $method, $request->get('date'));
+
+        return view('currency.operation-forms.' . $data['view'], $data);
     }
 
     /**
