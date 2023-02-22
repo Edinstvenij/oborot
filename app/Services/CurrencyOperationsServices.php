@@ -6,6 +6,7 @@ use App\Events\CurrencyUpdated;
 use App\Models\Currency;
 use App\Models\Operation;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,20 +15,15 @@ use Illuminate\View\View;
 class CurrencyOperationsServices
 {
     /**
-     * @return View
+     * @param string|null $date
+     * @return Collection
      */
-    public function index(): View
+    public function index(string $date = null): Collection
     {
-        if (request()->query->has('date')) {
-            $date = request()->query->get('date');
-            request()->validate(['date' => ['required', 'date']]);
-
-            $currencies = Currency::withRemainderDay($date)->get();
-            return view('currency.index', compact('currencies', 'date'));
+        if ($date) {
+            return Currency::withRemainderDay($date)->get();
         }
-
-        $currencies = Currency::query()->orderBy('created_at')->get();
-        return view('currency.index', compact('currencies'));
+        return Currency::query()->orderBy('created_at')->get();
     }
 
 
@@ -167,8 +163,8 @@ class CurrencyOperationsServices
      */
     public function expensesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
             $result = $currency->remainder - $request->get('result');
             $currency->update([
                 'remainder' => $result
@@ -226,9 +222,8 @@ class CurrencyOperationsServices
      */
     public function parishesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
             $result = $currency->remainder + $request->get('result');
             $currency->update([
                 'remainder' => $result
@@ -288,9 +283,8 @@ class CurrencyOperationsServices
      */
     private function saveBuyAndSale(Request $request, Currency $currency, string $method, array $data): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
             $currency->update([
                 'course' => $request->get('course'),
                 'remainder' => $data['result'],

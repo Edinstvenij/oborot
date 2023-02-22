@@ -23,11 +23,21 @@ class CurrencyController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        return $this->operations->index();
+        if ($request->query->has('date')) {
+            $request->validate(['date' => ['required', 'date']]);
+
+            $date = $request->query->get('date');
+            $currencies = $this->operations->index($date);
+            return view('currency.index', compact('currencies', 'date'));
+        }
+
+        $currencies = $this->operations->index();
+        return view('currency.index', compact('currencies'));
     }
 
     /**
