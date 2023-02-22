@@ -13,14 +13,7 @@
                           method="POST">
                         @csrf
                         <input type="hidden" name="currency_cipher_donor" value="{{ $currencyUah->cipher }}">
-                        <div class="row mb-1">
-                            <div class="col">
-                                <label for="course">Курс:</label>
-                                <input class="form-control" type="number" name="course" id="course" min="0" step="any"
-                                       value="{{ $currency->course ?? $currencyUah->course ?? '' }}" required>
-                            </div>
-                        </div>
-                        <input id="input" name="input" type="hidden" class="form-control" min="0" step="any"
+                        <input type="hidden" id="input" class="form-control" name="input" min="0" step="any"
                                required/>
 
                         @if($method === 'buy')
@@ -38,6 +31,7 @@
                                 <div class="col">
                                     <input id="result" name="result" type="number" class="form-control" min="0"
                                            step="any"
+                                           tabindex="0"
                                            autofocus
                                            required/>
                                 </div>
@@ -56,12 +50,24 @@
                                 <div class="col">
                                     <input id="result" name="result" type="number" class="form-control" min="0"
                                            step="any"
+                                           tabindex="0"
                                            autofocus
                                            required/>
                                 </div>
                             </div>
                         @endif
+                        <div class="row mb-1">
+                            <div class="col">
+                                <label for="course">Курс:</label>
+                                <input class="form-control" type="number" name="course" id="course" min="0" step="any"
+                                       tabindex="0"
+                                       value="{{ $currency->course ?? $currencyUah->course ?? '' }}"
+                                       required>
+                            </div>
+                        </div>
+
                         <button type="button" class="btn btn-primary mt-3"
+                                tabindex="0"
                                 data-bs-toggle="modal"
                                 data-bs-whatever="Подтвердите операцию"
                                 data-bs-target="#confirmation">
@@ -90,11 +96,17 @@
                         <p style="font-size:3rem;">...</p>
                     </div>
                     <div class="modal-footer">
-                        <button id="submit" type="submit" class="btn btn-outline-success"
-                                data-bs-dismiss="modal">
-                            Далее
+                        <input type="submit"
+                               id="submit"
+                               class="btn btn-outline-success"
+                               data-bs-dismiss="modal"
+                               tabindex="0"
+                               autofocus
+                               value="Далее">
+
+
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Отмена
                         </button>
-                        <button type="button" class="btn btn-danger">Отмена</button>
                     </div>
                 </div>
             </div>
