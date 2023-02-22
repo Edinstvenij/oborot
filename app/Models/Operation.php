@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $currency_cipher
+ * @property string $currency_cipher_donor
+ * @property float $course
+ * @property float $sum
+ * @property float $sum_donor
+ * @property string $comment
+ * @property string $date
+ */
 class Operation extends Model
 {
     use HasFactory;
