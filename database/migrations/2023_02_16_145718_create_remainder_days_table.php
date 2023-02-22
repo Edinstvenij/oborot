@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('remainder_days', function (Blueprint $table) {
             $table->id();
             $table->string('cipher', 3);
-            $table->integer('remainder');
+            $table->integer('remainder')->unsigned();
             $table->date('date');
 
             $table->foreign('cipher')->references('cipher')

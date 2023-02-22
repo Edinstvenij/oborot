@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->string('currency_cipher', '3');
             $table->string('currency_cipher_donor')->nullable();
             $table->float('course', 8, 4)->nullable();
-            $table->float('sum', 12)->nullable();
-            $table->float('sum_donor', 12)->nullable();
+            $table->float('sum', 12)->nullable()->unsigned();
+            $table->float('sum_donor', 12)->nullable()->unsigned();
             $table->string('comment')->nullable();
             $table->dateTimeTz('date');
 
