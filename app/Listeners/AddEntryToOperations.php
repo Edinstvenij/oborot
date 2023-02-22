@@ -16,30 +16,28 @@ class AddEntryToOperations
      * @return void
      * @throws Exception
      */
-    public function handle(CurrencyUpdated $event)
+    public function handle(CurrencyUpdated $event): void
     {
         try {
             DB::beginTransaction();
 
-            $method = str_replace('Save', '', $event->method);
-
-            $date = [
-                'name' => $method,
+            $data = [
+                'name' => str_replace('Save', '', $event->method),
                 'currency_cipher' => $event->currency->cipher,
-                'currency_cipher_donor' => $event->request->get('currency_cipher_donor'),
-                'course' => $event->request->get('course'),
-                'sum' => $event->request->get('result'),
-                'sum_donor' => $event->request->get('input'),
-                'comment' => $event->request->get('comment'),
+                'currency_cipher_donor' => $event->data['currency_cipher_donor'] ?? null,
+                'course' => $event->data['course'] ?? null,
+                'sum' => $event->data['amountCurrency'] ?? null,
+                'sum_donor' => $event->data['amountCurrencyUah'] ?? null,
+                'comment' => $event->data['comment'] ?? null,
                 'date' => now(),
             ];
 
-            Operation::create($date);
+            Operation::create($data);
 
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
+            throw new Exception('Поймано исключение:' . $e->getMessage() . '\n');
         }
     }
 }

@@ -63,17 +63,33 @@ class CurrencyOperationsServices
     public function buySave(Request $request, Currency $currency, string $method): RedirectResponse
     {
         $request->validate([
+            'course' => ['required'],
             'result' => ['required'],
-            'input' => ['required']
         ]);
 
+        $course = $request->get('course');
+        $amountCurrency = $request->get('result');
+        $amountCurrencyUah = $amountCurrency * $course;
+
         $data = [];
+        $data['course'] = $course;
+        $data['amountCurrency'] = $amountCurrency;
+        $data['amountCurrencyUah'] = $amountCurrencyUah;
+
         $data['currencyUah'] = Currency::query()->find('UAH');
-        $data['result'] = $currency->remainder + $request->get('result');
-        $data['resultUah'] = $data['currencyUah']->remainder - $request->get('input');
+        $data['result'] = $currency->remainder + $amountCurrency;
+        $data['resultUah'] = $data['currencyUah']->remainder - $amountCurrencyUah;
         $data['message'] = "Куплено ";
 
-        return $this->saveBuyAndSale($request, $currency, $method, $data);
+        if ($data['resultUah'] < 0) {
+            return redirect()
+                ->back()
+                ->with('message', [
+                    "Операция не возможна. Недостаточно гривны!  Остаток гривны {$data['currencyUah']->remainder}",
+                    'danger'
+                ]);
+        }
+        return $this->saveBuyAndSale($currency, $method, $data);
     }
 
 
@@ -112,18 +128,33 @@ class CurrencyOperationsServices
     public function saleSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
         $request->validate([
+            'course' => ['required'],
             'result' => ['required'],
-            'input' => ['required']
         ]);
 
+        $course = $request->get('course');
+        $amountCurrency = $request->get('result');
+        $amountCurrencyUah = $amountCurrency * $course;
+
         $data = [];
+        $data['course'] = $course;
+        $data['amountCurrency'] = $amountCurrency;
+        $data['amountCurrencyUah'] = $amountCurrencyUah;
         $data['currencyUah'] = Currency::query()->find('UAH');
 
         $data['result'] = $currency->remainder - $request->get('result');
-        $data['resultUah'] = $data['currencyUah']->remainder + $request->get('input');
+        $data['resultUah'] = $data['currencyUah']->remainder + $amountCurrencyUah;
         $data['message'] = "Продано ";
 
-        return $this->saveBuyAndSale($request, $currency, $method, $data);
+        if ($data['result'] < 0) {
+            return redirect()
+                ->back()
+                ->with('message', [
+                    "Операция не возможна. Недостаточно {$currency->name}!",
+                    'danger'
+                ]);
+        }
+        return $this->saveBuyAndSale($currency, $method, $data);
     }
 
 
@@ -160,6 +191,10 @@ class CurrencyOperationsServices
      */
     public function expensesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        $data = [];
+        $data['amountCurrency'] = $request->get('result');
+        $data['comment'] = $request->get('comment');
+
         DB::beginTransaction();
         try {
             $result = $currency->remainder - $request->get('result');
@@ -167,7 +202,7 @@ class CurrencyOperationsServices
                 'remainder' => $result
             ]);
 
-            event(new CurrencyUpdated($request, $currency, $method));
+            event(new CurrencyUpdated($currency, $method, $data));
 
             DB::commit();
         } catch (Exception $e) {
@@ -219,6 +254,10 @@ class CurrencyOperationsServices
      */
     public function parishesSave(Request $request, Currency $currency, string $method): RedirectResponse
     {
+        $data = [];
+        $data['amountCurrency'] = $request->get('result');
+        $data['comment'] = $request->get('comment');
+
         DB::beginTransaction();
         try {
             $result = $currency->remainder + $request->get('result');
@@ -226,7 +265,7 @@ class CurrencyOperationsServices
                 'remainder' => $result
             ]);
 
-            event(new CurrencyUpdated($request, $currency, $method));
+            event(new CurrencyUpdated($currency, $method, $data));
 
             DB::commit();
         } catch (Exception $e) {
@@ -278,12 +317,12 @@ class CurrencyOperationsServices
      * @return RedirectResponse
      * @throws Exception
      */
-    private function saveBuyAndSale(Request $request, Currency $currency, string $method, array $data): RedirectResponse
+    private function saveBuyAndSale(Currency $currency, string $method, array $data): RedirectResponse
     {
         DB::beginTransaction();
         try {
             $currency->update([
-                'course' => $request->get('course'),
+                'course' => $data['course'],
                 'remainder' => $data['result'],
             ]);
 
@@ -291,11 +330,11 @@ class CurrencyOperationsServices
                 'remainder' => $data['resultUah']
             ]);
 
-            event(new CurrencyUpdated($request, $currency, $method));
+            event(new CurrencyUpdated($currency, $method, $data));
 
             DB::commit();
             return redirect()->route('currency.index')->with('message', [
-                "{$data['message']} $request->result $currency->name на сумму $request->input {$data['currencyUah']->name}",
+                "{$data['message']} {$data['amountCurrency']} $currency->name на сумму {$data['amountCurrencyUah']} {$data['currencyUah']->name}",
                 'success'
             ]);
         } catch (Exception $e) {

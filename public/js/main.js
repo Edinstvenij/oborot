@@ -34,16 +34,6 @@ if (document.getElementById('operationsModal')) {
     })
 }
 
-if (document.querySelector('#course')) {
-    const course = document.querySelector('#course');
-    const input = document.querySelector('#input');
-    const result = document.querySelector('#result');
-
-    result.oninput = function () {
-        input.value = (result.value * course.value).toFixed(2);
-    }
-}
-
 if (document.getElementById('confirmation')) {
     const form = document.getElementById('form');
     const course = form.querySelector('#course');

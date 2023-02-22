@@ -13,9 +13,6 @@
                           method="POST">
                         @csrf
                         <input type="hidden" name="currency_cipher_donor" value="{{ $currencyUah->cipher }}">
-                        <input type="hidden" id="input" class="form-control" name="input" min="0" step="any"
-                               required/>
-
                         @if($method === 'buy')
 
                             <div class="row mb-1">
