@@ -5,7 +5,7 @@
 @section('content')
     @if(!empty($date))
         <form action="{{ route('currency.index') }}" method="GET" class="mb-2">
-            <label class="h2 me-2" for="date">История за:</label>
+            <label class="h2 me-2 text-white" for="date">История за:</label>
             <input class="input" type="date" name="date" id="date" value="{{$date}}"
                    min="2023-02-06"
                    max="{{ \Carbon\Carbon::yesterday()->format('Y-m-d') }}">
@@ -40,16 +40,6 @@
         @endforeach
         </tbody>
     </table>
-
-    @if(!empty($date))
-        <a href="{{ route('currency.index') }}"
-           class="position-fixed bottom-0 start-0  translate-middle btn btn-sm btn-primary rounded-pill"
-           style="margin-left: 50px">Назад</a>
-    @else
-        <a href="{{ route('currency.index') }}?date={{ date("Y-m-d", time()-(60*60*24)) }}"
-           class="position-fixed bottom-0 start-0  translate-middle btn btn-sm btn-primary rounded-pill"
-           style="margin-left: 50px">История</a>
-    @endif
 
     <a href="{{ route('currency.create') }}"
        class="position-fixed bottom-0 end-0  translate-middle btn btn-sm btn-primary rounded-pill"

@@ -1,6 +1,6 @@
 @if(count($operations))
     <div class="container">
-        <h2 class="h2">История операций</h2>
+        <h2 class="h2 text-white">История операций</h2>
         <table id="currencies" class="table table-dark table-hover ">
             <thead>
             <tr>
