@@ -9,14 +9,6 @@
     <link href="/css/style.css" rel="stylesheet">
 </head>
 <body>
-@if (Session::has('message'))
-    @if(count(Session::get('message')) > 1)
-        <div class="alert alert-{{ Session::get('message')[1] }}">{{ Session::get('message')[0] }}</div>
-    @else
-        <div class="alert alert-info">{{ Session::get('message')[0] }}</div>
-    @endif
-@endif
-
 @yield('modal')
 <header>
     <div class="px-3 py-2 bg-dark text-white">
@@ -77,6 +69,11 @@
                                     <a href="{{ route('currency.operations', ['all', 'notebook']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item disabled">Блокнот</a>
                                 </li>
+                                <hr>
+                                <li class="dropdown-item">
+                                    <a href="{{ route('currency.create') }}"
+                                       class="dropdown-item">Добавить валюту</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -85,6 +82,14 @@
         </div>
     </div>
 </header>
+@if (Session::has('message'))
+    @if(count(Session::get('message')) > 1)
+        <div class="alert mt-2 alert-{{ Session::get('message')[1] }}">{{ Session::get('message')[0] }}</div>
+    @else
+        <div class="alert mt-2 alert-info">{{ Session::get('message')[0] }}</div>
+    @endif
+@endif
+
 <div class="container">
     @yield('content')
 </div>

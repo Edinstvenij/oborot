@@ -51,4 +51,10 @@
             </tbody>
         </table>
     </div>
+@else
+    <div class="container">
+        <div class="alert text-white" role="alert">
+            Операций нет!
+        </div>
+    </div>
 @endif

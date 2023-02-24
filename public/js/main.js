@@ -60,7 +60,7 @@ if (document.getElementById('confirmation')) {
         if (sum.value === '' || course.value === '') {
             modalBodyText.textContent = `Заполните все поля!`;
         } else {
-            modalBodyText.textContent = `${sum.value} X ${course.value} = ${sum.value * course.value}`;
+            modalBodyText.textContent = `${sum.value} X ${course.value} = ${(sum.value * course.value).toFixed(2)}`;
         }
 
         btnSubmit.addEventListener('click', () => {

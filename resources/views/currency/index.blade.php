@@ -40,10 +40,6 @@
         @endforeach
         </tbody>
     </table>
-
-    <a href="{{ route('currency.create') }}"
-       class="position-fixed bottom-0 end-0  translate-middle btn btn-sm btn-primary rounded-pill"
-       style="width: 2rem; height:2rem;">+</a>
 @endsection
 
 @section('modal')

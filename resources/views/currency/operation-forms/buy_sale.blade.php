@@ -8,54 +8,33 @@
         <div class="row justify-content-center">
             <div class="col-8">
                 <!-- Content -->
-                <div class="card p-3">
+                <div class="card p-3 bg-dark">
                     <form id="form" action="{{ route('currency.operations.save', [$currency, $method]) }}"
                           method="POST">
                         @csrf
                         <input type="hidden" name="currency_cipher_donor" value="{{ $currencyUah->cipher }}">
-                        @if($method === 'buy')
 
-                            <div class="row mb-1">
-                                <div class="col">
-                                    <label for="result">Сумма:</label>
-                                    <select class="form-control" disabled>
-                                        <option value="{{ $currency->cipher }}"
-                                                selected>{{$currency->cipher .' — '. $currency->name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <input id="result" name="result" type="number" class="form-control" min="0"
-                                           step="any"
-                                           tabindex="0"
-                                           autofocus
-                                           required/>
-                                </div>
-                            </div>
-                        @else
-                            <div class="row mb-1">
-                                <div class="col">
-                                    <label for="result">Cумма:</label>
-                                    <select id="select" class="form-control" disabled>
-                                        <option value="{{ $currency->cipher }}"
-                                                selected>{{$currency->cipher .' — '. $currency->name}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <input id="result" name="result" type="number" class="form-control" min="0"
-                                           step="any"
-                                           tabindex="0"
-                                           autofocus
-                                           required/>
-                                </div>
-                            </div>
-                        @endif
                         <div class="row mb-1">
                             <div class="col">
-                                <label for="course">Курс:</label>
+                                <label class="text-white" for="result">Cумма:</label>
+                                <select id="select" class="form-control" disabled>
+                                    <option value="{{ $currency->cipher }}"
+                                            selected>{{$currency->cipher .' — '. $currency->name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input id="result" name="result" type="number" class="form-control" min="0"
+                                       step="any"
+                                       tabindex="0"
+                                       autofocus
+                                       required/>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col">
+                                <label class="text-white" for="course">Курс:</label>
                                 <input class="form-control" type="number" name="course" id="course" min="0" step="any"
                                        tabindex="0"
                                        value="{{ $currency->course ?? $currencyUah->course ?? '' }}"
