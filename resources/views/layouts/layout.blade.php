@@ -36,41 +36,41 @@
                                      alt="calendar">
                                 Операции
                             </button>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-item">
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'buy']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item">Покупка</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'sale']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item">Продажа</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'reinforcement']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item disabled">Подкрепление</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'shipment']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item disabled">Инкассация</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'parishes']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item">Приходы</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'expenses']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item">Расходы</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'remains']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item disabled">Конверсия</a>
                                 </li>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.operations', ['all', 'notebook']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item disabled">Блокнот</a>
                                 </li>
                                 <hr>
-                                <li class="dropdown-item">
+                                <li>
                                     <a href="{{ route('currency.create') }}"
                                        class="dropdown-item">Добавить валюту</a>
                                 </li>
