@@ -5,3 +5,9 @@ body {
 header {
     border-bottom: 1px solid #ffffff;
 }
+
+.active {
+    padding: 5px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+}

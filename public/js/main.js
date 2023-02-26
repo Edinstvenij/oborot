@@ -68,3 +68,75 @@ if (document.getElementById('confirmation')) {
         });
     });
 }
+
+
+const linksNavX = document.querySelectorAll('.nav-x');
+const linksNavY = document.querySelectorAll('.nav-y');
+let indexX = 0;
+let indexY = 0;
+let activeLink = null;
+
+document.addEventListener('keydown', event => {
+    const key = event.code;
+
+    linksNavX.forEach(link => {
+        link.classList.remove('active');
+    });
+
+    switch (key) {
+        case 'ArrowRight':
+            if (indexX < 0 || indexX >= linksNavX.length) {
+                indexX = 0;
+            }
+
+            linksNavX[indexX].classList.add('active');
+            linksNavX[indexX].focus();
+            activeLink = linksNavX[indexX];
+            indexX++;
+            break;
+
+        case 'ArrowLeft':
+            indexX--;
+
+            if (indexX < 0 || indexX >= linksNavX.length) {
+                indexX = linksNavX.length - 1;
+            }
+
+            linksNavX.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            linksNavX[indexX].classList.add('active');
+            linksNavX[indexX].focus();
+            activeLink = linksNavX[indexX];
+            break;
+
+        case 'ArrowDown':
+            if (indexY < 0 || indexY >= linksNavY.length) {
+                indexY = 0;
+            }
+
+            linksNavY[indexY].focus();
+            activeLink = linksNavY[indexY];
+
+            indexY++;
+            break;
+
+        case 'ArrowUp':
+            indexY--;
+
+            if (indexY < 0 || indexY >= linksNavY.length) {
+                indexY = linksNavY.length - 1;
+
+            }
+
+            linksNavY[indexY].focus();
+            activeLink = linksNavY[indexY];
+            break;
+
+        case 'Enter':
+            if (activeLink.matches('tr')) {
+                activeLink.click();
+            }
+    }
+});

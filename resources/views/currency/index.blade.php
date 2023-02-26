@@ -17,7 +17,8 @@
         </thead>
         <tbody>
         @foreach($currencies as $currency)
-            <tr class="row-link"
+            <tr class="row-link nav-y"
+                tabindex="0"
                 data-bs-toggle="modal"
                 data-bs-target="#operationsModal"
                 data-bs-whatever="{{ $currency->name }}"
