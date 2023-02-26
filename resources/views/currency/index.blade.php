@@ -4,13 +4,7 @@
 
 @section('content')
     @if(!empty($date))
-        <form action="{{ route('currency.index') }}" method="GET" class="mb-2">
-            <label class="h2 me-2 text-white" for="date">История за:</label>
-            <input class="input" type="date" name="date" id="date" value="{{$date}}"
-                   min="2023-02-06"
-                   max="{{ \Carbon\Carbon::yesterday()->format('Y-m-d') }}">
-            <button class="btn btn-light ms-2" type="submit">Выбрать</button>
-        </form>
+        @component('currency.components.choice-date', compact('date'))@endcomponent
     @endif
     <table id="currencies" class="table table-dark table-hover ">
         <thead>
@@ -50,7 +44,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="operationsModalLabel">Операции с </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="list-group">
@@ -72,7 +67,8 @@
                            class="list-group-item list-group-item-action list-group-item-dark disabled">Блокнот</a>
                     </div>
                     <hr>
-                    <a href="{{ route('currency.show','replacement') }}" class="btn btn-info">Редактировать</a>
+                    <a href="{{ route('currency.show','replacement') }}"
+                       class="btn btn-info">Редактировать</a>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>

@@ -24,6 +24,7 @@ Route::controller(CurrencyController::class)->prefix('currency')
     ->group(function () {
         Route::get('/', 'index')->name('currency.index');
 
+        Route::get('/all/{method}', 'startOperationHistory')->name('currency.history');
         Route::get('/{currency}/{method}', 'startOperations')->name('currency.operations');
         Route::post('/{currency}/{method}', 'startOperationsSave')->name('currency.operations.save');
     });

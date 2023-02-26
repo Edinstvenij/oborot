@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CurrencyRequest;
 use App\Models\Currency;
+use App\Models\Operation;
 use App\Services\CurrencyOperationsServices;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -147,6 +149,23 @@ class CurrencyController extends Controller
     {
         $method .= 'Save';
         return $this->operations->$method($request, $currency, $method);
+    }
+
+    /**
+     * @param Request $request
+     * @param string $method
+     * @return View
+     */
+    public function startOperationHistory(Request $request, string $method): View
+    {
+        $request->validate([
+            'date' => 'date'
+        ]);
+
+        $date = $request->get('date') ?? Carbon::now()->format('Y-m-d');
+        $operations = Operation::filerDate($method, null, $date);
+
+        return view('currency.history', compact('operations', 'date'));
     }
 
 }

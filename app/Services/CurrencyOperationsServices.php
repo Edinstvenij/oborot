@@ -46,7 +46,7 @@ class CurrencyOperationsServices
         $data['view'] = 'buy_sale';
         $data['title'] = 'Покупка';
         $data['currencyUah'] = Currency::query()->where('cipher', 'UAH')->first();
-        $data['operations'] = Operation::filerDate($currency, $method, $date)->get();
+        $data['operations'] = Operation::filerDate($method, $currency, $date)->get();
         return $data;
     }
 
@@ -111,7 +111,7 @@ class CurrencyOperationsServices
         $data['view'] = 'buy_sale';
         $data['title'] = 'Продажа';
         $data['currencyUah'] = Currency::query()->where('cipher', 'UAH')->first();
-        $data['operations'] = Operation::filerDate($currency, $method, $date)->get();
+        $data['operations'] = Operation::filerDate($method, $currency, $date)->get();
 
         return $data;
     }
@@ -175,7 +175,7 @@ class CurrencyOperationsServices
 
         $data['view'] = 'expenses_parishes';
         $data['title'] = 'Расходы';
-        $data['operations'] = Operation::filerDate($currency, $method, $date)->get();
+        $data['operations'] = Operation::filerDate($method, $currency, $date)->get();
 
         return $data;
     }
@@ -237,7 +237,7 @@ class CurrencyOperationsServices
 
         $data['view'] = 'expenses_parishes';
         $data['title'] = 'Приходы';
-        $data['operations'] = Operation::filerDate($currency, $method, $date ?? null)->get();
+        $data['operations'] = Operation::filerDate($method, $currency, $date ?? null)->get();
 
         return $data;
     }
