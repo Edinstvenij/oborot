@@ -15,7 +15,6 @@ if (document.getElementById('operationsModal')) {
         const modalTitle = operationsModal.querySelector('.modal-title');
         const modalLinks = operationsModal.querySelectorAll('a');
 
-
         modalTitle.textContent = `Операции с ${recipient}`;
 
         if (!lastId) {
@@ -71,10 +70,9 @@ if (document.getElementById('confirmation')) {
 
 
 const linksNavX = document.querySelectorAll('.nav-x');
-const linksNavY = document.querySelectorAll('.nav-y');
+const linksNavY = document.getElementById('currencies').querySelectorAll('.nav-y');
 let indexX = 0;
 let indexY = 0;
-let activeLink = null;
 
 document.addEventListener('keydown', event => {
     const key = event.code;
@@ -91,7 +89,6 @@ document.addEventListener('keydown', event => {
 
             linksNavX[indexX].classList.add('active');
             linksNavX[indexX].focus();
-            activeLink = linksNavX[indexX];
             indexX++;
             break;
 
@@ -108,7 +105,6 @@ document.addEventListener('keydown', event => {
 
             linksNavX[indexX].classList.add('active');
             linksNavX[indexX].focus();
-            activeLink = linksNavX[indexX];
             break;
 
         case 'ArrowDown':
@@ -117,7 +113,6 @@ document.addEventListener('keydown', event => {
             }
 
             linksNavY[indexY].focus();
-            activeLink = linksNavY[indexY];
 
             indexY++;
             break;
@@ -131,12 +126,35 @@ document.addEventListener('keydown', event => {
             }
 
             linksNavY[indexY].focus();
-            activeLink = linksNavY[indexY];
             break;
 
         case 'Enter':
-            if (activeLink.matches('tr')) {
-                activeLink.click();
+            if (document.activeElement.matches('tr')) {
+                document.activeElement.click();
+                modal.addEventListener('keydown', handleKeyDown);
+
             }
+            break;
     }
 });
+
+const modal = document.getElementById('operationsModal');
+
+const focusableElements = modal.querySelectorAll('a, button');
+
+let currentFocus = 0;
+
+function handleKeyDown(event) {
+    focusableElements.forEach(item => {
+        item.classList.remove('active');
+    })
+    if (event.key === 'ArrowDown') {
+        currentFocus = (currentFocus + 1) % focusableElements.length;
+        focusableElements[currentFocus].classList.add('active');
+        event.preventDefault();
+    } else if (event.key === 'ArrowUp') {
+        currentFocus = (currentFocus - 1 + focusableElements.length) % focusableElements.length;
+        focusableElements[currentFocus].classList.add('active');
+        event.preventDefault();
+    }
+}
