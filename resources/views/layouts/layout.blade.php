@@ -73,7 +73,7 @@
                                     <a href="{{ route('currency.operations', ['all', 'notebook']) }}@if(!empty($date))?date={{ $date }} @endif"
                                        class="dropdown-item disabled">Блокнот</a>
                                 </li>
-                                <hr>
+                                <div class="dropdown-divider"></div>
                                 <li>
                                     <a href="{{ route('currency.create') }}"
                                        class="dropdown-item">Добавить валюту</a>
