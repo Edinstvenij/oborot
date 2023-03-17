@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currencies = document.querySelectorAll('tbody tr.row-link');
         currencies[0].focus();
 
+        // Toggle modal (operations)
         let lastId = false;
         operationsModal.addEventListener('show.bs.modal', event => {
             // Button that triggered the modal
@@ -33,61 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastId = recipientId;
             }
         })
-
-
-        const linksNavY = document.getElementById('currencies').querySelectorAll('.nav-y');
-        let indexY = 0;
-        document.querySelector('#currencies').addEventListener('keydown', event => {
-            const key = event.code;
-            switch (key) {
-                case 'ArrowDown':
-                    indexY = indexY + 1 === linksNavY.length ? linksNavY.length - 1 : ++indexY;
-                    linksNavY[indexY].focus();
-
-                    event.preventDefault();
-                    break;
-
-                case 'ArrowUp':
-                    indexY = indexY - 1 > 0 ? --indexY : 0;
-                    linksNavY[indexY].focus();
-
-                    event.preventDefault();
-                    break;
-
-                case 'Enter':
-                    if (document.activeElement.matches('tr')) {
-                        document.activeElement.click();
-                        modal.addEventListener('keydown', handleKeyDown);
-                        focusableElements[1].focus();
-                    }
-                    break;
-            }
-        });
-        const modal = document.getElementById('operationsModal');
-        const focusableElements = modal.querySelectorAll('a, button');
-
-        let currentFocus = 0;
-
-        function handleKeyDown(event) {
-            focusableElements.forEach(item => {
-                item.classList.remove('active');
-            })
-
-            const key = event.code;
-            switch (key) {
-                case 'ArrowDown':
-                    currentFocus = (currentFocus + 1) % focusableElements.length;
-                    focusableElements[currentFocus].focus();
-                    break;
-                case 'ArrowUp':
-                    currentFocus = (currentFocus - 1 + focusableElements.length) % focusableElements.length;
-                    focusableElements[currentFocus].focus();
-                    break;
-            }
-        }
-
     }
 
+    // Окно подтверждение Покупки\Продажи
     if (document.getElementById('confirmation')) {
         const form = document.getElementById('form');
         const course = form.querySelector('#course');
@@ -126,9 +75,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const headerLinks = document.querySelectorAll('.nav-x');
+    const linksNavY = document.getElementById('currencies').querySelectorAll('.nav-y');
+    let indexY = 0;
     let headerIndex = 0;
 
-    document.addEventListener('keydown', event => {
+    document.addEventListener('keydown', navigationArrow);
+
+    const modal = document.getElementById('operationsModal');
+    const focusableElements = modal.querySelectorAll('a, button');
+
+    let currentFocus = 0;
+
+
+    function navigationArrow(event) {
+
         const key = event.code;
 
         headerLinks.forEach(link => {
@@ -151,7 +111,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 event.preventDefault();
                 break;
+
+            case 'ArrowDown':
+                if (event.target.closest('table') || event.target.closest('header')) {
+                    indexY = indexY + 1 === linksNavY.length ? linksNavY.length - 1 : ++indexY;
+                    linksNavY[indexY].focus();
+                }
+
+                event.preventDefault();
+                break;
+            case 'ArrowUp':
+                if (event.target.closest('table') || event.target.closest('header')) {
+                    indexY = indexY - 1 > 0 ? --indexY : 0;
+                    linksNavY[indexY].focus();
+                }
+
+                event.preventDefault();
+                break;
+            case 'Enter':
+                if (document.activeElement.matches('tr')) {
+                    document.activeElement.click();
+                    modal.addEventListener('keydown', handleKeyDown);
+                }
+                break;
         }
-    });
+    }
+
+    function handleKeyDown(event) {
+        focusableElements.forEach(item => {
+            item.classList.remove('active');
+        })
+
+        const key = event.code;
+        switch (key) {
+            case 'ArrowDown':
+                currentFocus = (currentFocus + 1) % focusableElements.length;
+                focusableElements[currentFocus].focus();
+                break;
+            case 'ArrowUp':
+                currentFocus = (currentFocus - 1 + focusableElements.length) % focusableElements.length;
+                focusableElements[currentFocus].focus();
+                break;
+        }
+    }
+
 
 });
