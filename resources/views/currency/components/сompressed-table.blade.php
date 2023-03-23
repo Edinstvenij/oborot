@@ -7,7 +7,7 @@
             </tr>
             @foreach($compressOperation['data'] as $operation)
                 <tr>
-                    <td>{{  "$operation[sum]  X  $operation[curses] =  $operation[total]" }}</td>
+                    <td>{{  "$operation[sum]  X  $operation[course] =  $operation[total]" }}</td>
                 </tr>
             @endforeach
         @endforeach

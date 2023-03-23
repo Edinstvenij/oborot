@@ -54,24 +54,29 @@ class Operation extends Model
 
     public function compressOperations($operations)
     {
+        if ($operations->first()->course === null) {
+            return null;
+        }
+
+
         // новый массив в требуемом формате
         $compressOperations = [];
 
         foreach ($operations as $operation) {
             $cipher = $operation->currency_cipher;
-            $curses = $operation->course;
+            $course = $operation->course;
             $sum = $operation->sum;
-            $total = $curses * $sum;
+            $total = $course * $sum;
 
             // если код валюты уже есть в новом массиве, добавляем данные
             if (isset($compressOperations[$cipher])) {
                 $recurringCourse = false;
                 foreach ($compressOperations[$cipher]['data'] as &$compressOperation) {
-                    if ($compressOperation['curses'] == $curses) {
+                    if ($compressOperation['course'] == $course) {
                         $compressOperation = [
-                            'curses' => $compressOperation['curses'],
+                            'course' => $compressOperation['course'],
                             'sum' => $compressOperation['sum'] + $sum,
-                            'total' => ($compressOperation['sum'] + $sum) * $compressOperation['curses']
+                            'total' => ($compressOperation['sum'] + $sum) * $compressOperation['course']
                         ];
 
                         $recurringCourse = true;
@@ -79,7 +84,7 @@ class Operation extends Model
                 }
                 if ($recurringCourse === false) {
                     $compressOperations[$cipher]['data'][] = [
-                        'curses' => $curses,
+                        'course' => $course,
                         'sum' => $sum,
                         'total' => $total
                     ];
@@ -89,7 +94,7 @@ class Operation extends Model
                     'code' => $cipher,
                     'data' => [
                         [
-                            'curses' => $curses,
+                            'course' => $course,
                             'sum' => $sum,
                             'total' => $total
                         ]
