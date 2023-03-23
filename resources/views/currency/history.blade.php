@@ -5,6 +5,6 @@
 @section('content')
     @component('currency.components.choice-date', compact('date'))
     @endcomponent
-    @component('currency.components.operations', compact('operations'))
+    @component('currency.components.operations', compact('operations', 'compressOperations'))
     @endcomponent
 @endsection

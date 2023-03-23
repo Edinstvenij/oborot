@@ -165,7 +165,11 @@ class CurrencyController extends Controller
         $date = $request->get('date') ?? Carbon::now()->format('Y-m-d');
         $operations = Operation::filerDate($method, null, $date);
 
-        return view('currency.history', compact('operations', 'date'));
+        count($operations) === 0
+            ? $compressOperations = []
+            : $compressOperations = $operations[0]->compressOperations($operations);
+
+        return view('currency.history', compact('operations', 'date', 'compressOperations'));
     }
 
 }

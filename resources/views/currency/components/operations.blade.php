@@ -57,6 +57,13 @@
             </div>
         </div>
     </div>
+
+
+    @isset($compressOperations)
+        @component('currency.components.сompressed-table', compact('compressOperations'))
+        @endcomponent
+    @endisset
+
 @else
     <div class="container">
         <div class="alert text-white" role="alert">

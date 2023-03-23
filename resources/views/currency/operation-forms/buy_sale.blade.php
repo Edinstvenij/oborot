@@ -37,7 +37,6 @@
                                 <label class="text-white" for="course">Курс:</label>
                                 <input class="form-control" type="number" name="course" id="course" min="0" step="any"
                                        tabindex="0"
-                                       value="{{ $currency->course ?? $currencyUah->course ?? '' }}"
                                        required>
                             </div>
                         </div>

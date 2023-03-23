@@ -51,4 +51,63 @@ class Operation extends Model
     {
         return new OperationBuilder($query);
     }
+
+    public function compressOperations($operations)
+    {
+        // новый массив в требуемом формате
+        $compressOperations = [];
+
+        foreach ($operations as $operation) {
+            $cipher = $operation->currency_cipher;
+            $curses = $operation->course;
+            $sum = $operation->sum;
+            $total = $curses * $sum;
+
+            // если код валюты уже есть в новом массиве, добавляем данные
+            if (isset($compressOperations[$cipher])) {
+                $recurringCourse = false;
+                foreach ($compressOperations[$cipher]['data'] as &$compressOperation) {
+                    if ($compressOperation['curses'] == $curses) {
+                        $compressOperation = [
+                            'curses' => $compressOperation['curses'],
+                            'sum' => $compressOperation['sum'] + $sum,
+                            'total' => ($compressOperation['sum'] + $sum) * $compressOperation['curses']
+                        ];
+
+                        $recurringCourse = true;
+                    }
+                }
+                if ($recurringCourse === false) {
+                    $compressOperations[$cipher]['data'][] = [
+                        'curses' => $curses,
+                        'sum' => $sum,
+                        'total' => $total
+                    ];
+                }
+            } else { // если код валюты отсутствует, создаем новый элемент
+                $compressOperations[$cipher] = [
+                    'code' => $cipher,
+                    'data' => [
+                        [
+                            'curses' => $curses,
+                            'sum' => $sum,
+                            'total' => $total
+                        ]
+                    ]
+                ];
+            }
+        }
+
+// приводим новый массив к требуемому формату
+        $compressOperations = array_values($compressOperations);
+        foreach ($compressOperations as &$item) {
+            $data = $item['data'];
+            $item['data'] = array_values($data);
+        }
+
+        unset($item);
+
+
+        return $compressOperations;
+    }
 }
