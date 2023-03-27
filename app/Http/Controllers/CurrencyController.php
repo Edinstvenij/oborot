@@ -99,7 +99,7 @@ class CurrencyController extends Controller
     public function update(CurrencyRequest $request, Currency $currency): RedirectResponse
     {
         $currency->update($request->validated());
-        return redirect()->back()->with('message', ['Изменение внесены успешно', 'success']);
+        return redirect()->route('currency.index')->with('message', ['Изменение внесены успешно', 'success']);
     }
 
     /**
