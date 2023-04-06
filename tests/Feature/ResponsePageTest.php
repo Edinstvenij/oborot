@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Currency;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ResponsePageTest extends TestCase
@@ -20,9 +22,14 @@ class ResponsePageTest extends TestCase
      * @param int $code
      * @return void
      */
-    public function testStatusPage(string $page, int $code): void
+    public function testStatusPage(string $page, int $code, bool $isAuth): void
     {
-        $this->get($page)->assertStatus($code);
+        if ($isAuth) {
+            $this->get($page)->assertStatus(302);
+            $this->actingAs(User::find(1))->get($page)->assertStatus($code);
+        } else {
+            $this->get($page)->assertStatus($code);
+        }
     }
 
     /**
@@ -34,10 +41,22 @@ class ResponsePageTest extends TestCase
             [
                 'page' => '/',
                 'code' => 302,
+                'isAuth' => true,
             ],
             [
                 'page' => '/currency',
                 'code' => 200,
+                'isAuth' => true,
+            ],
+            [
+                'page' => '/login',
+                'code' => 200,
+                'isAuth' => false,
+            ],
+            [
+                'page' => '/logout',
+                'code' => 302,
+                'isAuth' => true,
             ],
         ];
     }
@@ -48,7 +67,11 @@ class ResponsePageTest extends TestCase
     public function testCurrencyHistoryPage(): void
     {
         $date = Carbon::yesterday()->format('Y-m-d');
+
         $this->get("/currency?date=$date")
+            ->assertStatus(302);
+
+        $this->actingAs(User::find(1))->get("/currency?date=$date")
             ->assertStatus(200);
     }
 
@@ -57,15 +80,32 @@ class ResponsePageTest extends TestCase
      * @param string $page
      * @return void
      */
-    public function testCurrenciesPage(string $page): void
+    public function testCurrenciesPageAuth(string $page): void
     {
         foreach (Currency::all() as $currency) {
-            $this->get("/currency/$currency->cipher/$page")
+            $this->actingAs(User::find(1))->get("/currency/$currency->cipher/$page")
                 ->assertStatus(200);
         }
         if ($page != 'edit') {
-            $this->get("/currency/all/$page")
+            $this->actingAs(User::find(1))->get("/currency/all/$page")
                 ->assertStatus(200);
+        }
+    }
+
+    /**
+     * @dataProvider dataProviderForCurrencies
+     * @param string $page
+     * @return void
+     */
+    public function testCurrenciesPageNoAuth(string $page): void
+    {
+        foreach (Currency::all() as $currency) {
+            $this->get("/currency/$currency->cipher/$page")
+                ->assertStatus(302);
+        }
+        if ($page != 'edit') {
+            $this->get("/currency/all/$page")
+                ->assertStatus(302);
         }
     }
 
@@ -91,5 +131,26 @@ class ResponsePageTest extends TestCase
                 'edit',
             ],
         ];
+    }
+
+    public function testLogin()
+    {
+        $email = 'test@gmail.com';
+        $password = 'test123';
+
+        User::factory()->create([
+            'email' => $email,
+            'password' => Hash::make($password)
+        ]);
+
+        $this->post('/login', ['email' => $email, 'password' => $password])->assertStatus(302);
+        $this->assertAuthenticated();
+    }
+
+    public function testLogout()
+    {
+        $this->actingAs(User::find(1));
+        $this->get('/logout')->assertStatus(302);
+        $this->assertGuest();
     }
 }

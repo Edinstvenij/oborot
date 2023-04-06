@@ -1,4 +1,4 @@
-@extends('layouts.layout')
+@extends('layouts.layoutCurrency')
 
 @section('title','Редактирование '. $currency->cipher)
 
