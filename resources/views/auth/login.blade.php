@@ -13,7 +13,8 @@
                             <form action="{{ route('authenticate') }}" method="POST">
                                 @csrf
                                 <div class="mb-md-5 mt-md-4 pb-5">
-
+                                    <img width="40" height="32" role="img" aria-label="Bootstrap" src="/img/logo.png"
+                                         alt="">
                                     <h2 class="fw-bold mb-2 text-uppercase">Авторизация</h2>
                                     <p class="text-white-50 mb-5">Введите ваш логин и пароль</p>
 
