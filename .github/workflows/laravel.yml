@@ -68,6 +68,7 @@ jobs:
 
       - name: Run test
         run: |
+          php artisan optimize
           php artisan config:cache
           php artisan cache:clear
           php artisan view:clear
