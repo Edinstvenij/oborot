@@ -8,12 +8,14 @@ jobs:
     env:
       DB_DATABASE: laravel
       DB_USERNAME: root
+      DB_PASSWORD: password
 
     services:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: laravel
         ports:
           - 3306/tcp
@@ -65,6 +67,9 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
       - name: Run test
-        run: php artisan test
+        run: |
+          php artisan config:cache
+          php artisan cache:clear
+          php artisan test
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
