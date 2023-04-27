@@ -68,4 +68,6 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
       - name: Run test
-        run: php artisan test -T
+        env:
+          CI: true
+        run: php artisan test --no-tty
