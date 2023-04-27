@@ -68,9 +68,4 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
       - name: Run test
-        run: php artisan test
-
-      - name: Test with phpunit
-        run: vendor/bin/phpunit --coverage-text
-        env:
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+        run: php artisan test -T
