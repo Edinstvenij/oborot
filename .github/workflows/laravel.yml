@@ -70,4 +70,4 @@ jobs:
       - name: Run test
         env:
           CI: true
-        run: php artisan test --disable-tty
+        run: php artisan test
