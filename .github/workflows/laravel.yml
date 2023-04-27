@@ -19,7 +19,6 @@ jobs:
           MYSQL_DATABASE: laravel
         ports:
           - 3306/tcp
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout
@@ -66,10 +65,9 @@ jobs:
         run: php artisan migrate -v --seed
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-      - name: List test directory
-        run: ls -R ./tests
-        
+
       - name: Run test
         env:
           CI: true
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: php artisan test
