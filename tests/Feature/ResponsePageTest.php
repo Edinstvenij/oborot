@@ -142,8 +142,14 @@ class ResponsePageTest extends TestCase
             'email' => $email,
             'password' => Hash::make($password)
         ]);
-
-        $this->post('/login', ['email' => $email, 'password' => $password])->assertStatus(302);
+        echo csrf_field();
+        $this->post('/login', [
+            'email' => $email,
+            'password' => $password,
+            '_token' => csrf_token()
+        ])->assertStatus(
+            302
+        );
         $this->assertAuthenticated();
     }
 
