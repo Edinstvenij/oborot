@@ -1,9 +1,9 @@
 # GitHub Action for Laravel with MySQL and Redis
 name: Testing Laravel with MySQL
-on: [push, pull_request]
+on: [ push, pull_request ]
 jobs:
   laravel:
-    name: Laravel 
+    name: Laravel
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
@@ -24,6 +24,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+        # Docs: https://github.com/shivammathur/setup-php
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.6'
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: xdebug
 
       # Local MySQL service in GitHub hosted environments is disabled by default.
       # If you are using it instead of service containers, make sure you start it.
@@ -58,7 +66,7 @@ jobs:
         run: php artisan migrate -v --seed
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          
+
       - name: Run test
         run: php artisan test
 
