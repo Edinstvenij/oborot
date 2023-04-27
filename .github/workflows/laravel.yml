@@ -66,10 +66,15 @@ jobs:
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
-      - name: Run test
+      - name: Clear cache
         run: |
+          php artisan optimize
           php artisan config:cache
           php artisan cache:clear
-          php artisan test
+          php artisan view:clear
+          php artisan route:cache
+
+      - name: Run test
+        run: php artisan test
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
