@@ -65,13 +65,11 @@ jobs:
         run: php artisan migrate -v --seed
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-
-      - name: Clear cache
+          
+      - name: Run test
         run: |
           php artisan config:cache
           php artisan cache:clear
-
-      - name: Run test
-        run: php artisan test
+          php artisan test
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
