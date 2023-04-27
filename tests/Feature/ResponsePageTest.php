@@ -143,6 +143,8 @@ class ResponsePageTest extends TestCase
             'password' => Hash::make($password)
         ]);
 
+        echo csrf_token();
+
         $csrfToken = csrf_token();
         header('X-CSRF-TOKEN: ' . $csrfToken);
 
