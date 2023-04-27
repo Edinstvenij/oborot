@@ -67,7 +67,6 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
 
       - name: Run test
-        env:
-          CI: true
-          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: php artisan test
+        env:
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
