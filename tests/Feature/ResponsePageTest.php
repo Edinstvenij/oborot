@@ -143,17 +143,18 @@ class ResponsePageTest extends TestCase
             'password' => Hash::make($password)
         ]);
 
-        echo csrf_token();
+        $this->post(
+            '/login',
+            [
+                'email' => $email,
+                'password' => $password,
+            ],
+            [
+                'X-CSRF-TOKEN' => ''
+            ]
+        )
+            ->assertStatus(302);
 
-        $csrfToken = csrf_token();
-        header('X-CSRF-TOKEN: ' . $csrfToken);
-
-        $this->post('/login', [
-            'email' => $email,
-            'password' => $password,
-        ])->assertStatus(
-            302
-        );
         $this->assertAuthenticated();
     }
 
