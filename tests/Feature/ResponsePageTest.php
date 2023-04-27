@@ -150,9 +150,6 @@ class ResponsePageTest extends TestCase
                 'password' => $password,
             ]
         )
-            ->withHeaders([
-                'X-CSRF-TOKEN' => csrf_token(),
-            ])
             ->assertStatus(302);
 
         $this->assertAuthenticated();
